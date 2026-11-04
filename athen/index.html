@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Athen Vorschau</title>
+<meta name="robots" content="noindex, nofollow">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:300;src:url(fonts/cormorant-garamond-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:300;src:url(fonts/cormorant-garamond-latin-300-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:400;src:url(fonts/cormorant-garamond-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:400;src:url(fonts/cormorant-garamond-latin-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:500;src:url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:500;src:url(fonts/cormorant-garamond-latin-500-italic.woff2) format("woff2")}
+@font-face{font-family:"Jost";font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/jost-latin-wght-normal.woff2) format("woff2")}
+</style>
+<style>
+/* Entwurf 1 „Nachtblau & Gold“ – bewusst festes dunkles Erscheinungsbild (Markenauftritt des Kunden). */
+:root{--ink:#1b2735;--ink2:#243243;--ink3:#2c3c4f;--gold:#cfab62;--gold2:#e2c88f;--bone:#f0e9dc;--mute:#a9b2bc;--soft:#d0cabd;--line:#36475a;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost","Segoe UI",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--bone);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}[hidden]{display:none!important}a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
+@media(min-width:700px){.wrap{padding:0 48px}}
+.eyebrow{font:500 12px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.serif{font-family:var(--serif)}
+h1,h2,h3{font-family:var(--serif);font-weight:300;margin:0;text-wrap:balance}
+h2{font-size:clamp(44px,7vw,80px);line-height:1}h2 i{color:var(--gold)}
+.meander{height:14px;width:180px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 13h6V3h12v8h-6V7M18 11v2h10' fill='none' stroke='%23cfab62' stroke-width='1.3'/%3E%3C/svg%3E") repeat-x;opacity:.85}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:17px 28px;font:500 13px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;border:1px solid var(--gold);background:none;cursor:pointer;transition:.2s}
+.btn.f{background:var(--gold);color:var(--ink);font-weight:600}.btn:hover{background:var(--gold2);color:var(--ink);border-color:var(--gold2)}
+.banner{background:var(--gold);color:var(--ink);font:500 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:9px 12px}
+
+/* Nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(27,39,53,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font:400 26px/1 var(--serif);letter-spacing:.32em}
+.links{display:none;gap:34px;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.links a{opacity:.85}.links a:hover,.links a.on{color:var(--gold);opacity:1}
+.nav .btn{padding:13px 20px;font-size:12px}
+@media(min-width:900px){.links{display:flex}}
+@media(max-width:899px){.nav .btn{display:none}}
+
+/* Hero */
+.hero{position:relative;min-height:min(820px,92vh);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;filter:brightness(.7) saturate(.95)}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(27,39,53,.05),rgba(27,39,53,.78) 78%),linear-gradient(0deg,var(--ink),transparent 35%)}
+.hero .c{position:relative;z-index:2;padding:80px 16px 120px;display:flex;flex-direction:column;align-items:center}
+.hero h1{font-size:clamp(96px,17vw,220px);line-height:.8;margin:26px 0 18px}
+.hero p{font:italic 300 clamp(21px,2.6vw,30px)/1.3 var(--serif);margin:0;color:#e6dccb}
+.hero .cta{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center}
+.open{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:14px;color:var(--soft)}
+.open i{width:8px;height:8px;border-radius:50%;background:#7fc28a;box-shadow:0 0 0 4px rgba(127,194,138,.2)}
+.open.closed i{background:#d98a7a;box-shadow:0 0 0 4px rgba(217,138,122,.2)}
+
+/* Quick-Reserve bar */
+.qbar{position:relative;z-index:5;max-width:1080px;margin:-64px auto 0;background:var(--ink2);border:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr) auto;box-shadow:0 30px 60px rgba(0,0,0,.25)}
+.qbar label{padding:20px 26px;border-right:1px solid var(--line);display:block;cursor:pointer}
+.qbar small{display:block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.qbar select{background:none;border:0;font:400 24px var(--serif);width:100%;appearance:none;cursor:pointer;padding:0}
+.qbar select option{background:var(--ink2);font-size:16px}
+.qbar .btn{border:0;padding:0 38px}
+@media(max-width:700px){.qbar{grid-template-columns:1fr 1fr;margin:-50px 16px 0}.qbar label{border-bottom:1px solid var(--line)}.qbar label:nth-child(2){border-right:0}.qbar .btn{grid-column:1/-1;padding:20px}}
+
+.sec{padding-top:clamp(90px,12vw,150px)}
+.center{text-align:center}.center .meander{margin:24px auto 0}
+
+/* Speisekarte */
+.mhead{display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px}
+.mtools{position:sticky;top:72px;z-index:20;background:var(--ink);padding:18px 0 14px;margin-top:40px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:11px 18px;border:1px solid var(--line);background:none;cursor:pointer;font-size:13px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.tab.on{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600}
+.mrow{display:flex;gap:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:0 14px;background:var(--ink2)}
+.search input{flex:1;background:none;border:0;outline:0;padding:12px 0;font-size:15px}
+.chip{padding:10px 14px;border:1px solid var(--line);background:none;cursor:pointer;font-size:13px;display:inline-flex;gap:8px;align-items:center}
+.chip.on{border-color:var(--gold);color:var(--gold)}
+.cat{margin-top:56px}
+.cat h3{font-size:44px;display:flex;align-items:baseline;gap:18px}
+.cat h3 small{font:500 12px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.dishes{display:grid;grid-template-columns:1fr;column-gap:80px;margin-top:10px}
+@media(min-width:900px){.dishes{grid-template-columns:1fr 1fr}}
+.dish{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}
+.dish .ph{width:76px;height:76px;overflow:hidden;border-radius:50%}.dish .ph img{width:100%;height:100%;object-fit:cover}
+.dish.np{grid-template-columns:1fr}
+.dish .t{display:flex;align-items:baseline;gap:12px}
+.dish b{font:500 27px/1.15 var(--serif)}
+.dots{flex:1;border-bottom:1px dotted #55667a;transform:translateY(-6px);min-width:20px}
+.price{font:400 25px var(--serif);color:var(--gold);white-space:nowrap}
+.dish p{margin:4px 0 0;color:var(--mute);font-size:15px;line-height:1.55}
+.tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border:1px solid var(--line);color:var(--soft)}
+.tag.g{border-color:var(--gold);color:var(--gold)}
+@media(max-width:899px){.mtools{position:static}.search{flex-basis:100%}}
+.mnote{margin-top:40px;padding:22px 26px;border:1px dashed var(--line);color:var(--mute);font-size:14px;line-height:1.7}
+.empty{padding:50px 0;text-align:center;color:var(--mute)}
+
+/* Reservierung */
+.rsv{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--line);background:var(--ink2)}
+@media(min-width:1000px){.rsv{grid-template-columns:.9fr 1.1fr}}
+.rsv .side{position:relative;min-height:340px;overflow:hidden}
+.rsv .side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62)}
+.rsv .side .t{position:absolute;left:40px;right:40px;bottom:40px}
+.rsv .side h2{font-size:clamp(44px,5vw,68px)}
+.rsv .side p{color:var(--soft);margin:14px 0 0;line-height:1.7}
+.form{padding:clamp(24px,4vw,52px)}
+.step{display:flex;align-items:center;gap:14px;margin:0 0 14px;font:500 12px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.step i{font:400 22px var(--serif);font-style:normal;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:34px}
+.day{border:1px solid var(--line);background:none;padding:10px 0;cursor:pointer;text-align:center}
+.day small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.day span{font:400 24px/1.1 var(--serif)}
+.day.on{background:var(--gold);border-color:var(--gold);color:var(--ink)}.day.on small{color:var(--ink)}
+.day:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.slots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.slot{padding:10px 14px;border:1px solid var(--line);background:none;cursor:pointer;font-size:15px}
+.slot.on{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600}
+.slotlabel{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:12px 0 8px}
+.guests{display:flex;align-items:center;gap:0;border:1px solid var(--line);width:max-content;margin-bottom:10px}
+.guests button{width:52px;height:52px;background:none;border:0;cursor:pointer;font-size:22px;color:var(--gold)}
+.guests span{min-width:120px;text-align:center;font:400 26px var(--serif)}
+.hint{font-size:14px;color:var(--mute);margin:0 0 30px}.hint a{color:var(--gold);border-bottom:1px solid}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields label{display:block}.fields .full{grid-column:1/-1}
+.fields small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.fields input,.fields textarea,.fields select{width:100%;background:var(--ink);border:1px solid var(--line);padding:13px 14px;font-size:16px;outline:0}
+.fields input:focus,.fields textarea:focus{border-color:var(--gold)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--mute);margin:16px 0 22px}
+.sum{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px}
+.sum div{font:400 22px var(--serif)}.sum div em{color:var(--gold);font-style:normal}
+.done{text-align:center;padding:40px 10px}
+.done .ok{width:74px;height:74px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:30px}
+.done h3{font-size:46px}.done p{color:var(--soft);max-width:440px;margin:14px auto 0;line-height:1.7}
+.err{color:#e4a596;font-size:14px;margin:0 0 10px}
+@media(max-width:600px){.fields{grid-template-columns:1fr}.days{grid-template-columns:repeat(7,1fr);gap:4px}.day span{font-size:20px}.rsv .side .t{left:22px;right:22px;bottom:26px}}
+
+/* Feiern */
+.duo{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:900px){.duo{grid-template-columns:1fr 1fr}}
+.card{position:relative;min-height:520px;overflow:hidden;display:flex;align-items:flex-end}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72)}
+.card:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(0deg,rgba(27,39,53,.92),transparent)}
+.card .t{position:relative;z-index:2;padding:40px}
+.card h3{font-size:clamp(40px,4vw,54px);margin:12px 0 10px}.card p{margin:0 0 22px;color:var(--soft);line-height:1.7;max-width:460px}
+.rating{padding:100px 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:clamp(90px,12vw,150px)}
+.rating .n{font:300 clamp(110px,14vw,150px)/.9 var(--serif);color:var(--gold)}
+.info{display:grid;grid-template-columns:1fr}
+@media(min-width:900px){.info{grid-template-columns:repeat(3,1fr)}}
+.info>div{padding:60px 36px;border-bottom:1px solid var(--line)}
+@media(min-width:900px){.info>div{border-bottom:0;border-right:1px solid var(--line)}.info>div:last-child{border:0}}
+.info h4{font:400 36px var(--serif);margin:14px 0 12px}.info p{margin:0;color:var(--soft);line-height:1.9}
+.hours{width:100%;border-collapse:collapse;color:var(--soft);font-size:15px}.hours td{padding:5px 0}.hours td:last-child{text-align:right}.hours tr.today{color:var(--gold)}
+footer{border-top:1px solid var(--line);padding:36px 0 120px;color:#8794a2;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(min-width:900px){footer{padding-bottom:36px}}
+
+/* Mobile bar */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:1fr 1fr 1.3fr;background:var(--ink2);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.mbar a{padding:16px 6px;text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;border-right:1px solid var(--line)}
+.mbar a.f{background:var(--gold);color:var(--ink);font-weight:600;border:0}
+@media(min-width:900px){.mbar{display:none}}
+/* Wasserzeichen: Rechte am Entwurf liegen bei Alexander Czilinski. Liegt über allem, fängt keine Klicks ab. */
+body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300'%3E%3Cg transform='rotate(-24 230 150)' fill='%23cfab62' fill-opacity='0.13' font-family='Georgia,serif' text-anchor='middle'%3E%3Ctext x='230' y='140' font-size='22'%3E%C2%A9 Alexander Czilinski%3C/text%3E%3Ctext x='230' y='168' font-size='12' letter-spacing='3'%3EENTWURF %C2%B7 NICHT ZUR WEITERGABE%3C/text%3E%3C/g%3E%3C/svg%3E") 0 0/460px 300px repeat}
+footer .copy{text-transform:none;letter-spacing:.04em;line-height:1.6;max-width:640px}
+</style>
+
+<div class="banner">Unverbindliche Vorschau · Entwurf von Alexander Czilinski für Restaurant Athen · Reservierungen werden nicht verschickt</div>
+
+<header class="nav"><div class="wrap in">
+<a class="logo" href="#top">ATHEN</a>
+<nav class="links"><a href="#karte">Speisekarte</a><a href="#reservieren">Reservieren</a><a href="#feiern">Feiern</a><a href="#besuch">Besuch</a></nav>
+<a class="btn f" href="#reservieren">Tisch reservieren</a></div></header>
+
+<section class="hero" id="top"><img src="aimg/hero.jpg" alt="Feta mit Olivenöl und Kräutern">
+<div class="c"><span class="eyebrow">Griechische Küche · Marklohe-Lemke</span><div class="meander" style="margin-top:22px"></div>
+<h1>Athen</h1><p>Frisch angerichtet, wie bei Familie Mramori zuhause.</p>
+<div class="cta"><a class="btn f" href="#reservieren">Tisch reservieren</a><a class="btn" href="#karte">Speisekarte</a></div>
+<div class="open" id="openState"><i></i><span></span></div></div></section>
+
+<form class="qbar" id="qbar" onsubmit="return false">
+<label><small>Datum</small><select id="qDate"></select></label>
+<label><small>Uhrzeit</small><select id="qTime"></select></label>
+<label><small>Personen</small><select id="qGuests"></select></label>
+<button class="btn f" id="qGo" type="button">Weiter</button></form>
+
+<main class="wrap">
+
+<section class="sec" id="karte">
+<div class="mhead"><span class="eyebrow">Speisekarte</span><h2>Aus unserer <i>Küche</i></h2><div class="meander"></div>
+<p style="color:var(--soft);max-width:560px;margin:0">Alle Hauptgerichte mit Reis und Salatteller. Fragen zu Allergenen beantworten wir gern persönlich.</p></div>
+<div class="mtools">
+<div class="tabs" id="tabs"></div>
+<div class="mrow"><label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cfab62" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Gericht suchen, z. B. Lamm oder Feta" aria-label="Gericht suchen"></label>
+<button class="chip" id="vegChip" type="button">Vegetarisch</button><button class="chip" id="tipChip" type="button">★ Tipp des Hauses</button></div></div>
+<div id="menu"></div>
+<div class="mnote"><b style="color:var(--gold)">Hinweis zur Vorschau:</b> Auszug mit Gerichten und Preisen aus der Speisekarte von 2021. Die vollständige, aktuelle Karte wird übernommen und lässt sich später ohne Programmierkenntnisse pflegen. Fotos sind Platzhalter.</div>
+</section>
+
+<section class="sec" id="reservieren">
+<div class="rsv">
+<div class="side"><img src="aimg/greek.jpg" alt="Gedeckter Tisch mit Bauernsalat"><div class="t"><span class="eyebrow">Reservierung</span><h2 style="margin-top:14px">Ihr Tisch<br><i>wartet.</i></h2><p>Online anfragen in einer Minute – wir bestätigen per Anruf oder SMS. Lieber persönlich? <a href="tel:+49502163450" style="color:var(--gold)">05021 63450</a></p></div></div>
+<div class="form" id="rsvForm">
+<div id="rsvSteps">
+<p class="step"><i>1</i>Tag wählen</p><div class="days" id="days"></div>
+<p class="step"><i>2</i>Uhrzeit</p><div id="slots"></div>
+<p class="step" style="margin-top:28px"><i>3</i>Personen</p>
+<div class="guests"><button type="button" id="gMinus" aria-label="weniger">−</button><span id="gVal">2 Personen</span><button type="button" id="gPlus" aria-label="mehr">+</button></div>
+<p class="hint" id="gHint">Ab 9 Personen planen wir gern im Gesellschaftsraum – <a href="#feiern">Feier anfragen</a>.</p>
+<p class="step"><i>4</i>Ihre Angaben</p>
+<div class="fields">
+<label><small>Name</small><input id="fName" autocomplete="name"></label>
+<label><small>Telefon</small><input id="fTel" type="tel" autocomplete="tel"></label>
+<label class="full"><small>Anmerkung (optional)</small><input id="fNote" placeholder="z. B. Kinderstuhl, Geburtstag, draußen im Biergarten"></label></div>
+<label class="consent"><input type="checkbox" id="fOk"> Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Reservierung gespeichert werden (Datenschutzerklärung).</label>
+<p class="err" id="err" hidden></p>
+<div class="sum"><div id="sum">—</div><button class="btn f" type="button" id="send">Anfrage senden</button></div>
+</div>
+<div class="done" id="done" hidden><div class="ok">✓</div><h3>Danke, <span id="dName"></span>!</h3><p id="dText"></p><p style="font-size:13px;color:var(--mute)">(Vorschau – in der fertigen Seite geht die Anfrage direkt an das Restaurant.)</p><button class="btn" type="button" id="again" style="margin-top:26px">Neue Anfrage</button></div>
+</div></div>
+</section>
+
+<section class="sec" id="feiern"><div class="center"><span class="eyebrow">Mehr als ein Abendessen</span><h2 style="margin-top:20px">Feiern &amp; <i>Sommerabende</i></h2><div class="meander"></div></div>
+<div class="duo" style="margin-top:56px">
+<div class="card"><img src="aimg/teller.jpg" alt="Griechischer Grillteller"><div class="t"><span class="eyebrow">Gesellschaftsraum</span><h3>Feiern bei uns</h3><p>Geburtstag, Konfirmation, Jubiläum oder Firmenessen – wir stellen mit Ihnen ein Menü für Ihre Gäste zusammen.</p><a class="btn f" href="#reservieren" id="feierBtn">Feier anfragen</a></div></div>
+<div class="card"><img src="aimg/garten.jpg" alt="Gegrilltes Fleisch im Freien"><div class="t"><span class="eyebrow">Biergarten</span><h3>Draußen sitzen</h3><p>An warmen Tagen servieren wir im Biergarten. Bei der Reservierung einfach „draußen“ angeben.</p><a class="btn" href="#reservieren">Tisch reservieren</a></div></div>
+</div></section>
+</main>
+
+<section class="rating"><div class="n">4,5</div><div style="color:var(--gold);letter-spacing:8px;margin:14px 0">★★★★★</div><div style="color:var(--mute);font-size:14px;letter-spacing:.14em">AUS 335 GOOGLE-BEWERTUNGEN</div></section>
+
+<div class="wrap" id="besuch"><section class="info">
+<div><span class="eyebrow">Öffnungszeiten</span><h4>Wir sind da</h4><table class="hours" id="hours"></table><p style="font-size:13px;color:var(--mute);margin-top:10px">Küche bis 22 Uhr</p></div>
+<div><span class="eyebrow">Adresse</span><h4>Sulinger Str. 51</h4><p>31608 Marklohe-Lemke<br>Parkplätze am Haus</p></div>
+<div><span class="eyebrow">Telefon</span><h4>05021 63450</h4><p>Reservierung, Abholung und Feiern</p></div>
+</section></div>
+<footer><div class="wrap"><span>Restaurant Athen · Familie Mramori</span><span class="copy">© 2026 Alexander Czilinski · Entwurf und Gestaltung urheberrechtlich geschützt.<br>Nutzung und Weitergabe nur mit schriftlicher Zustimmung. Impressum und Datenschutz folgen.</span></div></footer>
+
+<nav class="mbar"><a href="tel:+49502163450">Anrufen</a><a href="#karte">Karte</a><a class="f" href="#reservieren">Reservieren</a></nav>
+
+<script>
+// ---------- Daten (Speisekarte 2021, Auszug) ----------
+const MENU=[
+ {cat:"Vorspeisen",items:[
+  {n:"Feta",d:"Griechischer Schafskäse",p:7.30,veg:1,img:"aimg/oliven.jpg"},
+  {n:"Dolmadakia",d:"Gefüllte Weinblätter",p:7.40}]},
+ {cat:"Salate",items:[
+  {n:"Bauernsalat",d:"Tomaten, Gurken, Paprika, Oliven und Feta",p:14.50,veg:1,img:"aimg/salat.jpg"}]},
+ {cat:"Vom Grill",items:[
+  {n:"Athen-Teller",d:"Gyros, Souvlaki, Lammkotelett, Leber und Suzuki",p:22.90,tip:1,img:"aimg/teller.jpg"},
+  {n:"Gyros",d:"Vom Drehspieß",p:17.50,img:"aimg/gyros.jpg"},
+  {n:"Souvlaki I",d:"Fleischspieße vom Grill",p:17.80,img:"aimg/souvlaki.jpg"},
+  {n:"Suzukakia",d:"Gewürzte Hackfleischröllchen",p:17.30},
+  {n:"Bifteki",d:"Gefüllt mit Feta und Tomaten",p:19.00,tip:1}]},
+ {cat:"Spezialitäten",items:[
+  {n:"Schweinefilet",d:"Mit Kräuterbutter",p:21.50},
+  {n:"Lammkoteletts",d:"Vom Grill",p:23.50},
+  {n:"Rumpsteak",d:"Ca. 280 g",p:29.50}]},
+ {cat:"Meeresfrüchte",items:[
+  {n:"Calamaris",d:"Tintenfischringe",p:16.90},
+  {n:"Gambas",d:"Riesengarnelen",p:22.50}]}
+];
+// Öffnungszeiten: 0=So … 6=Sa  [Start,Ende] in Minuten; letzte Reservierung 21:00 (Küche bis 22)
+const HOURS={0:[[720,870],[1020,1380]],1:[],2:[[1020,1380]],3:[[1020,1380]],4:[[1020,1380]],5:[[1020,1380]],6:[[1020,1380]]};
+const DN=["So","Mo","Di","Mi","Do","Fr","Sa"],DL=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+const MN=["Jan.","Feb.","März","Apr.","Mai","Juni","Juli","Aug.","Sep.","Okt.","Nov.","Dez."];
+const $=s=>document.querySelector(s);
+const eur=v=>v.toFixed(2).replace(".",",");
+const hm=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+
+// ---------- Speisekarte ----------
+let curCat="Alle",veg=false,tip=false;
+function renderTabs(){
+  $("#tabs").innerHTML=["Alle",...MENU.map(c=>c.cat)].map(c=>`<button type="button" class="tab${c===curCat?" on":""}" data-c="${c}">${c}</button>`).join("");
+}
+function renderMenu(){
+  const q=$("#q").value.trim().toLowerCase();let html="",count=0;
+  MENU.forEach(c=>{
+    if(curCat!=="Alle"&&c.cat!==curCat)return;
+    const its=c.items.filter(i=>(!veg||i.veg)&&(!tip||i.tip)&&(!q||(i.n+" "+i.d).toLowerCase().includes(q)));
+    if(!its.length)return;count+=its.length;
+    html+=`<div class="cat"><h3>${c.cat}<small>${its.length} ${its.length>1?"Gerichte":"Gericht"}</small></h3><div class="dishes">`+
+    its.map(i=>`<div class="dish${i.img?"":" np"}">${i.img?`<div class="ph"><img src="${i.img}" alt="" loading="lazy"></div>`:""}<div><div class="t"><b>${i.n}</b><span class="dots"></span><span class="price">${eur(i.p)} €</span></div><p>${i.d}</p>${(i.veg||i.tip)?`<div class="tags">${i.tip?'<span class="tag g">★ Tipp des Hauses</span>':""}${i.veg?'<span class="tag">Vegetarisch</span>':""}</div>`:""}</div></div>`).join("")+`</div></div>`;
+  });
+  $("#menu").innerHTML=count?html:`<div class="empty">Kein Gericht gefunden. <a href="#" id="reset" style="color:var(--gold)">Filter zurücksetzen</a></div>`;
+}
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;curCat=b.dataset.c;renderTabs();renderMenu()});
+$("#q").addEventListener("input",renderMenu);
+$("#vegChip").onclick=()=>{veg=!veg;$("#vegChip").classList.toggle("on",veg);renderMenu()};
+$("#tipChip").onclick=()=>{tip=!tip;$("#tipChip").classList.toggle("on",tip);renderMenu()};
+$("#menu").addEventListener("click",e=>{if(e.target.id==="reset"){e.preventDefault();curCat="Alle";veg=tip=false;$("#q").value="";$("#vegChip").classList.remove("on");$("#tipChip").classList.remove("on");renderTabs();renderMenu()}});
+
+// ---------- Reservierung ----------
+const today=new Date();today.setHours(0,0,0,0);
+const DAYS=[...Array(14)].map((_,i)=>{const d=new Date(today);d.setDate(d.getDate()+i);return d});
+let selDay=null,selTime=null,guests=2;
+function slotsFor(d){
+  const out=[];const now=new Date();
+  (HOURS[d.getDay()]||[]).forEach(([a,b])=>{
+    const last=b>=1380?1260:b-60; // Abends letzte Reservierung 21:00, mittags 1 h vor Schluss
+    for(let m=a;m<=last;m+=30){
+      if(d.getTime()===today.getTime()&&m<=now.getHours()*60+now.getMinutes()+60)continue;
+      out.push(m);
+    }});
+  return out;
+}
+function firstOpenDay(){return DAYS.find(d=>slotsFor(d).length)}
+function renderDays(){
+  $("#days").innerHTML=DAYS.slice(0,7).map((d,i)=>{const dis=!slotsFor(d).length;
+    return `<button type="button" class="day${selDay&&d.getTime()===selDay.getTime()?" on":""}" data-i="${i}" ${dis?"disabled":""} title="${dis?(d.getDay()===1?"Ruhetag":"keine Zeiten mehr frei"):""}"><small>${i===0?"Heute":DN[d.getDay()]}</small><span>${d.getDate()}.</span></button>`}).join("");
+}
+function renderSlots(){
+  if(!selDay){$("#slots").innerHTML="";return}
+  const s=slotsFor(selDay);const mid=s.filter(m=>m<900),eve=s.filter(m=>m>=900);
+  const grp=(l,a)=>a.length?`<div class="slotlabel">${l}</div><div class="slots">${a.map(m=>`<button type="button" class="slot${m===selTime?" on":""}" data-m="${m}">${hm(m)}</button>`).join("")}</div>`:"";
+  $("#slots").innerHTML=grp("Mittags",mid)+grp("Abends",eve);
+}
+function renderGuests(){
+  $("#gVal").textContent=guests+(guests===1?" Person":" Personen");
+  $("#gHint").style.color=guests>=9?"var(--gold)":"";
+}
+function renderSum(){
+  $("#sum").innerHTML=selDay&&selTime!=null?`${DL[selDay.getDay()]}, ${selDay.getDate()}. ${MN[selDay.getMonth()]} · <em>${hm(selTime)} Uhr</em> · ${guests} ${guests===1?"Person":"Personen"}`:"Bitte Tag und Uhrzeit wählen";
+}
+function renderAll(){renderDays();renderSlots();renderGuests();renderSum();syncQbar()}
+$("#days").addEventListener("click",e=>{const b=e.target.closest(".day");if(!b||b.disabled)return;selDay=DAYS[+b.dataset.i];if(!slotsFor(selDay).includes(selTime))selTime=null;renderAll()});
+$("#slots").addEventListener("click",e=>{const b=e.target.closest(".slot");if(!b)return;selTime=+b.dataset.m;renderAll()});
+$("#gMinus").onclick=()=>{guests=Math.max(1,guests-1);renderAll()};
+$("#gPlus").onclick=()=>{guests=Math.min(30,guests+1);renderAll()};
+$("#send").onclick=()=>{
+  const err=$("#err");const name=$("#fName").value.trim(),tel=$("#fTel").value.trim();
+  let m="";if(!selDay||selTime==null)m="Bitte Tag und Uhrzeit wählen.";else if(!name)m="Bitte Ihren Namen angeben.";else if(tel.replace(/\D/g,"").length<6)m="Bitte eine Telefonnummer für Rückfragen angeben.";else if(!$("#fOk").checked)m="Bitte der Datenschutzerklärung zustimmen.";
+  if(m){err.textContent=m;err.hidden=false;return}err.hidden=true;
+  $("#dName").textContent=name.split(" ")[0];
+  $("#dText").innerHTML=`Ihre Anfrage für <b style="color:var(--gold)">${DL[selDay.getDay()]}, ${selDay.getDate()}. ${MN[selDay.getMonth()]}, ${hm(selTime)} Uhr</b> für ${guests} ${guests===1?"Person":"Personen"} ist bei uns angekommen. Wir bestätigen Ihren Tisch kurz per Anruf oder SMS an ${tel}.`;
+  $("#rsvSteps").hidden=true;$("#done").hidden=false;
+};
+$("#again").onclick=()=>{$("#rsvSteps").hidden=false;$("#done").hidden=true};
+$("#feierBtn").onclick=()=>{guests=Math.max(guests,12);$("#fNote").value="Feier im Gesellschaftsraum – Anlass: ";renderAll()};
+
+// Quick bar
+function fillQbar(){
+  $("#qDate").innerHTML=DAYS.map((d,i)=>slotsFor(d).length?`<option value="${i}">${i===0?"Heute":DN[d.getDay()]+", "+d.getDate()+". "+MN[d.getMonth()]}</option>`:"").join("");
+  $("#qGuests").innerHTML=[...Array(12)].map((_,i)=>`<option value="${i+1}">${i+1} ${i?"Gäste":"Gast"}</option>`).join("");
+}
+function fillQTimes(){const d=DAYS[+$("#qDate").value];$("#qTime").innerHTML=slotsFor(d).map(m=>`<option value="${m}">${hm(m)} Uhr</option>`).join("")}
+function syncQbar(){
+  if(selDay){const i=DAYS.findIndex(d=>d.getTime()===selDay.getTime());if($("#qDate").value!=i){$("#qDate").value=i;fillQTimes()}}
+  if(selTime!=null)$("#qTime").value=selTime;
+  $("#qGuests").value=Math.min(guests,12);
+}
+$("#qDate").onchange=()=>{fillQTimes();selDay=DAYS[+$("#qDate").value];selTime=+$("#qTime").value;renderAll()};
+$("#qTime").onchange=()=>{selDay=DAYS[+$("#qDate").value];selTime=+$("#qTime").value;renderAll()};
+$("#qGuests").onchange=()=>{guests=+$("#qGuests").value;renderAll()};
+$("#qGo").onclick=()=>{selDay=DAYS[+$("#qDate").value];selTime=+$("#qTime").value;guests=+$("#qGuests").value;renderAll();$("#reservieren").scrollIntoView({behavior:"smooth"})};
+
+// Öffnungszeiten + Status
+function renderHours(){
+  const order=[1,2,3,4,5,6,0];const td=new Date().getDay();
+  $("#hours").innerHTML=order.map(d=>`<tr class="${d===td?"today":""}"><td>${DL[d]}</td><td>${HOURS[d].length?HOURS[d].map(([a,b])=>hm(a)+"–"+hm(b)).join(" · "):"Ruhetag"}</td></tr>`).join("");
+  const now=new Date(),m=now.getHours()*60+now.getMinutes();const iv=HOURS[now.getDay()].find(([a,b])=>m>=a&&m<b);
+  const el=$("#openState");
+  if(iv){el.querySelector("span").textContent="Jetzt geöffnet bis "+hm(iv[1])+" Uhr"}
+  else{el.classList.add("closed");let txt="Heute geschlossen";const nx=HOURS[now.getDay()].find(([a])=>a>m);
+    if(nx)txt="Öffnet heute um "+hm(nx[0])+" Uhr";else{for(let k=1;k<8;k++){const d=(now.getDay()+k)%7;if(HOURS[d].length){txt="Öffnet "+(k===1?"morgen":DL[d])+" um "+hm(HOURS[d][0][0])+" Uhr";break}}}
+    el.querySelector("span").textContent=txt}
+}
+
+renderTabs();renderMenu();fillQbar();
+selDay=firstOpenDay()||null;fillQTimes();renderAll();renderHours();
+</script>
+</body>
+</html>
