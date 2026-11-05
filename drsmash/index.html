@@ -199,7 +199,8 @@ section.pad{padding:clamp(90px,12vw,150px) var(--pad);position:relative}
 .kv{border-top:1px solid var(--line)}
 .kv div{display:grid;grid-template-columns:160px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);font-size:17px}
 .kv .mono{color:var(--dim);padding-top:3px}
-.kv .todo{font-family:var(--mono);font-size:13px;color:#d9b95c}
+.hours{display:grid;grid-template-columns:auto auto;gap:6px 28px;justify-content:start}.hours i{font-style:normal;color:var(--dim)}.hours b{font-weight:400;font-variant-numeric:tabular-nums}.hours .now{color:var(--mon)}
+.open{color:var(--dim)}.open.yes{color:var(--mon)}.tel{border-bottom:1px solid var(--line2)}.tel:hover{color:var(--mon);border-color:var(--mon)}
 .visit .cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
 .map{position:relative;min-height:420px;border:1px solid var(--line);overflow:hidden;background:#0b0f10}
 .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.9) brightness(.8) hue-rotate(120deg) saturate(.4)}
@@ -352,9 +353,9 @@ footer .r a:hover{color:var(--mon)}
 <section class="pad" id="labor">
   <div class="sechead rv"><h2>Die Werte<br><span class="mon">stimmen</span></h2><p>Gemessen an der Platte, nicht im Prospekt.</p></div>
   <div class="labs">
-    <div class="lab rv"><b><span class="cnt" data-to="120">0</span><small>g</small></b><h3>Beef pro Patty</h3><span class="mono">Referenz 100–140</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
-    <div class="lab rv"><b><span class="cnt" data-to="230">0</span><small>°</small></b><h3>Stahltemperatur</h3><span class="mono">Referenz 200–250</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
-    <div class="lab rv"><b><span class="cnt" data-to="8">0</span><small>s</small></b><h3>Druck auf der Platte</h3><span class="mono">Danach nicht mehr anfassen</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="120">0</span><small>g</small></b><h3>Beef pro Patty</h3><span class="mono">Referenz 100–140</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="230">0</span><small>°</small></b><h3>Stahltemperatur</h3><span class="mono">Referenz 200–250</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="8">0</span><small>s</small></b><h3>Druck auf der Platte</h3><span class="mono">Danach nicht mehr anfassen</span></div>
     <div class="lab rv"><b><span class="cnt" data-to="1">0</span><small>×</small></b><h3>Geheime Doktor-Sauce</h3><span class="mono">Auch als Dip</span></div>
   </div>
 </section>
@@ -401,9 +402,14 @@ footer .r a:hover{color:var(--mon)}
   <div class="visit">
     <div class="rv">
       <div class="kv">
-        <div><span class="mono">Sprechzeiten</span><span class="todo">[Öffnungszeiten vom Inhaber]</span></div>
+        <div><span class="mono">Status</span><span id="open" class="open">●</span></div>
+        <div><span class="mono">Sprechzeiten</span><span class="hours" id="hours">
+          <i data-d="1">Montag</i><b data-d="1">12:00–22:30</b><i data-d="2">Dienstag</i><b data-d="2">12:00–22:30</b>
+          <i data-d="3">Mittwoch</i><b data-d="3">12:00–22:30</b><i data-d="4">Donnerstag</i><b data-d="4">12:00–22:30</b>
+          <i data-d="5">Freitag</i><b data-d="5">12:00–22:30</b><i data-d="6">Samstag</i><b data-d="6">12:00–22:30</b>
+          <i data-d="0">Sonntag</i><b data-d="0">14:00–22:30</b></span></div>
+        <div><span class="mono">Telefon</span><a href="tel:+4950218691961" class="tel">05021 869 19 61</a></div>
         <div><span class="mono">Notaufnahme</span><span>Lieferung über Lieferando</span></div>
-        <div><span class="mono">Telefon</span><span class="todo">[Telefonnummer]</span></div>
       </div>
       <div class="cta"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a><a class="btn" href="https://www.openstreetmap.org/search?query=Leinstra%C3%9Fe%2017%2C%2031582%20Nienburg" target="_blank" rel="noopener">Route planen</a></div>
     </div>
@@ -548,6 +554,16 @@ const rio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)retur
     c.textContent=k<1?Math.round(to*k+(Math.random()-.5)*to*.15*(1-k)):to;if(k<1)requestAnimationFrame(f)})(t0)});
   if(e.target.id==='feat')e.target.classList.add('on');rio.unobserve(e.target)}),{threshold:.18});
 $$('.rv').forEach(el=>rio.observe(el));
+
+/* opening status (Europe/Berlin) */
+(function(){const H={0:[14,22.5],1:[12,22.5],2:[12,22.5],3:[12,22.5],4:[12,22.5],5:[12,22.5],6:[12,22.5]};
+ const parts=new Intl.DateTimeFormat('de-DE',{timeZone:'Europe/Berlin',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+ const wd={So:0,Mo:1,Di:2,Mi:3,Do:4,Fr:5,Sa:6}[parts.find(x=>x.type==='weekday').value.replace('.','')];
+ const t=+parts.find(x=>x.type==='hour').value+(+parts.find(x=>x.type==='minute').value)/60;
+ $$('#hours [data-d="'+wd+'"]').forEach(e=>e.classList.add('now'));
+ const [a,b]=H[wd],el=$('#open');const fmt=h=>`${Math.floor(h)}:${String(Math.round(h%1*60)).padStart(2,'0')}`;
+ if(t>=a&&t<b){el.classList.add('yes');el.textContent=`● Jetzt geöffnet · bis ${fmt(b)} Uhr`}
+ else{const n=t<a?a:H[(wd+1)%7][0];el.textContent=`● Geschlossen · öffnet ${t<a?'heute':'morgen'} um ${fmt(n)} Uhr`}})();
 
 /* stamps */
 $$('.rx').forEach(rx=>rx.addEventListener('click',()=>rx.classList.add('used')));
