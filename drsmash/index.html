@@ -313,7 +313,7 @@ footer .r a:hover{color:var(--mon)}
 <!-- 01 AUFNAHME -->
 <section class="scene" id="aufnahme" data-clip="c1" data-frames="145">
   <div class="pin">
-    <div class="bgblur" style="background-image:url(img/c1-blur.webp)" aria-hidden="true"></div><video class="vid" data-c="c1" muted playsinline preload="auto" poster="img/c1-poster.webp" aria-label="Ein Burger liegt auf einem Stahltablett im dunklen OP-Saal, die OP-Lampe schaltet sich ein"></video>
+    <div class="bgblur" style="background-image:url(img/c1-blur.webp)" aria-hidden="true"></div><video class="vid" data-c="c1" muted playsinline preload="auto" poster="img/c1-poster.webp" aria-label="Ein Burger liegt auf einem Stahltablett im dunklen OP-Saal, die OP-Lampe schaltet sich ein"></video><video class="vid" id="c1loop" muted playsinline loop preload="none" aria-hidden="true" style="opacity:0;transition:opacity .25s"></video>
     <div class="scrim-l"></div><div class="scrim-b"></div>
     <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
     <div class="meta mono"><span>Patient Nr. 0017</span><span>Leinstraße 17</span><span class="mon" id="clock">● live</span></div>
@@ -440,7 +440,7 @@ footer .r a:hover{color:var(--mon)}
 
 <footer>
   <div class="giant" aria-hidden="true">Dr.Smash</div>
-  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v4</span></div>
+  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v5</span></div>
 </footer>
 <div class="mob"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a></div>
 
@@ -455,7 +455,7 @@ const SET=mobile()?'m':'d';
 
 /* ---------- videos ---------- */
 const ZOOM={c1:1.9,c2:1.75,c3:1.6},MY={c1:.42,c2:.58,c3:.6},K={c1:1,c2:1,c3:.8},DX={c1:.13,c2:.1,c3:.05};
-const V={};$$('.vid').forEach(v=>{const c=v.dataset.c;V[c]=v;v.src=`v/${c}${SET}.mp4`;v.loop=(c==='c2');v.muted=true;v.playsInline=true});
+const V={};$$('.vid[data-c]').forEach(v=>{const c=v.dataset.c;V[c]=v;v.src=`v/${c}${SET}.mp4`;v.loop=(c==='c2');v.muted=true;v.playsInline=true});
 function rect(c,w,h){const iw=16,ih=9;let W,H;
   if(w/h>=1.2){const s=Math.max(w/iw,h/ih)*K[c];W=iw*s;H=ih*s;return {x:(w-W)/2+w*DX[c],y:(h-H)/2,w:W,h:H}}
   W=w*ZOOM[c];H=W*ih/iw;return {x:(w-W)/2,y:h*MY[c]-H/2,w:W,h:H}}
@@ -465,7 +465,10 @@ function mask(v,r,h,w){ // soft edges so the video melts into the page
   if(lft)g.push(`linear-gradient(to right,transparent 0,#000 16%)`);
   const m=g.join(',');v.style.webkitMaskImage=v.style.maskImage=m||'none';if(g.length>1){v.style.webkitMaskComposite='source-in';v.style.maskComposite='intersect'}}
 function layout(){for(const c in V){const v=V[c],p=v.parentElement,w=p.clientWidth,h=p.clientHeight,r=rect(c,w,h);
-  Object.assign(v.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});mask(v,r,h,w);v._r=r;v._w=w;v._h=h}placeCallouts()}
+  Object.assign(v.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});mask(v,r,h,w);v._r=r;v._w=w;v._h=h;
+  if(c==='c1'){Object.assign(LOOP.style,{left:v.style.left,top:v.style.top,width:v.style.width,height:v.style.height});LOOP.style.webkitMaskImage=LOOP.style.maskImage=v.style.maskImage}}placeCallouts()}
+const LOOP=$('#c1loop');LOOP.src=`v/c1loop${SET}.mp4`;
+V.c1.addEventListener('ended',()=>{LOOP.currentTime=0;LOOP.play().then(()=>{LOOP.style.opacity=1}).catch(()=>{})});
 
 /* ---------- befund callouts ---------- */
 const LAYERS=[
@@ -492,12 +495,13 @@ let shown=0,target=0;const lnum=$('#lnum');
 const pr=setInterval(()=>{const v=V.c1;if(v.buffered.length&&v.duration)target=Math.max(target,Math.min(95,v.buffered.end(0)/v.duration*100));else target=Math.min(60,target+4)},120);
 let started=false;function start(){if(started)return;started=true;clearInterval(pr);target=100;
   setTimeout(()=>{$('#loader').classList.add('done');document.body.classList.remove('lock');document.body.classList.add('ready');
-    V.c1.currentTime=0;V.c1.play().catch(()=>{});V.c2.preload='auto';V.c2.load();V.c3.load()},350)}
+    V.c1.currentTime=0;V.c1.play().catch(()=>{});LOOP.preload='auto';LOOP.load();V.c2.preload='auto';V.c2.load();V.c3.load()},350)}
 V.c1.addEventListener('canplaythrough',start,{once:true});setTimeout(start,4500);
 
 /* ---------- play when visible ---------- */
 // play only when at least ~55% visible
 const vio2=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('.vid');if(!v||!started)return;
+  if(v.dataset.c==='c1'&&v.ended){if(e.intersectionRatio>=.55)LOOP.play().catch(()=>{});else if(e.intersectionRatio<.2)LOOP.pause();return}
   if(e.intersectionRatio>=.55){if(v.paused){if(v.dataset.c==='c3'||v.dataset.c==='c2')v.currentTime=0;if(v.dataset.c!=='c1'||!v.ended)v.play().catch(()=>{})}}
   else if(e.intersectionRatio<.2){v.pause();if(v.dataset.c==='c3')v.currentTime=0}}),{threshold:[.2,.55]});
 ['aufnahme','eingriff','befund'].forEach(id=>vio2.observe(document.getElementById(id)));
