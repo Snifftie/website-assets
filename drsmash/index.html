@@ -7,6 +7,8 @@
 <title>Dr. Smash · Praxis für Smashburger · Nienburg</title>
 <meta name="description" content="Entwurf: Website für Dr. Smash Burger, Leinstraße 17, Nienburg (Weser).">
 <meta name="theme-color" content="#050606">
+<meta name="author" content="Alexander Czilinski">
+<meta name="copyright" content="© 2026 Alexander Czilinski – Entwurf, nicht zur Weitergabe">
 <link rel="preload" href="fonts/chakra-petch-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:'Chakra Petch';font-weight:300;font-display:swap;src:url(fonts/chakra-petch-latin-300-normal.woff2) format('woff2')}
@@ -37,8 +39,8 @@ h1,h2{font-weight:300;text-transform:uppercase;line-height:.88;letter-spacing:-.
 .grain{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:.06;animation:gr 1s steps(4) infinite;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 @keyframes gr{0%{background-position:0 0}25%{background-position:-37px 21px}50%{background-position:29px -43px}75%{background-position:-19px -11px}}
-.wm{position:fixed;inset:0;z-index:85;pointer-events:none;opacity:.05;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300'%3E%3Cg transform='rotate(-22 230 150)'%3E%3Ctext x='20' y='160' fill='%23fff' font-family='monospace' font-size='15' letter-spacing='3'%3EENTWURF %C2%B7 %C2%A9 ALEXANDER CZILINSKI %C2%B7 NICHT ZUR WEITERGABE%3C/text%3E%3C/g%3E%3C/svg%3E") 0 0/460px 300px repeat}
+.wm{position:fixed;inset:0;z-index:85;pointer-events:none;opacity:.075;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300'%3E%3Cg transform='rotate(-22 230 150)'%3E%3Ctext x='20' y='160' fill='%23fff' font-family='monospace' font-size='15' letter-spacing='3'%3EVORSCHAU %C2%B7 %C2%A9 ALEXANDER CZILINSKI %C2%B7 NICHT ZUR WEITERGABE%3C/text%3E%3C/g%3E%3C/svg%3E") 0 0/460px 300px repeat}
 
 /* loader */
 #loader{position:fixed;inset:0;z-index:100;background:#030404;display:flex;flex-direction:column;justify-content:flex-end;padding:var(--pad);transition:opacity .9s ease,visibility .9s}
@@ -278,11 +280,15 @@ footer .r a:hover{color:var(--mon)}
 .bgblur{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(28px) brightness(.45) saturate(1.1);display:none}
 .vfade{position:absolute;inset:0;pointer-events:none}
 @media (max-width:900px){.bgblur{display:block}}
+.badge{position:fixed;right:var(--pad);bottom:58px;z-index:86;pointer-events:none;padding:6px 10px;border:1px solid rgba(255,255,255,.18);background:rgba(5,6,6,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:rgba(232,236,233,.75);font-size:10px}
+footer .legal{margin-top:22px;max-width:760px;color:var(--dim);font-size:13px;line-height:1.55}
+@media (max-width:900px){.badge{top:64px;bottom:auto;right:12px;font-size:9px;padding:5px 8px}}
 </style>
 </head>
 <body class="lock">
 <div class="grain" aria-hidden="true"></div>
 <div class="wm" aria-hidden="true"></div>
+<div class="badge mono" aria-label="Entwurf von Alexander Czilinski">Entwurf · © Alexander Czilinski</div>
 
 <div id="loader" role="status" aria-live="polite">
   <svg viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,32 H420 l14,-6 l10,6 h24 l12,-28 l14,52 l12,-24 h24 l16,-8 l12,8 H1200" fill="none" stroke="#5ff2c0" stroke-width="1.6"/></svg>
@@ -440,7 +446,8 @@ footer .r a:hover{color:var(--mon)}
 
 <footer>
   <div class="giant" aria-hidden="true">Dr.Smash</div>
-  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v5</span></div>
+  <p class="legal">© 2026 Alexander Czilinski. Diese Seite ist ein Entwurf zur Vorschau für Dr. Smash Burger, Nienburg (Weser). Design, Texte und Videos sind urheberrechtlich geschützt. Weitergabe, Kopie oder Nutzung ohne Auftrag sind nicht gestattet.</p>
+  <div class="r mono"><span>Dr. Smash Burger · Leinstraße 17 · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v6</span></div>
 </footer>
 <div class="mob"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a></div>
 
@@ -555,6 +562,10 @@ $$('.rv').forEach(el=>rio.observe(el));
 
 /* steam loop: load + play only near the viewport */
 (function(){const v=$('#steam');let set=false;new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!set){v.src=`v/steam${SET}.mp4`;set=true}v.play().catch(()=>{})}else v.pause()}),{rootMargin:'200px 0px'}).observe(v)})();
+
+/* protect media: no right-click save, no download button */
+$$('video').forEach(v=>{v.setAttribute('controlsList','nodownload noremoteplayback');v.disablePictureInPicture=true});
+document.addEventListener('contextmenu',e=>{if(e.target.closest('video,img,.feat,.pin'))e.preventDefault()});
 
 /* stamps */
 $$('.rx').forEach(rx=>rx.addEventListener('click',()=>rx.classList.add('used')));
