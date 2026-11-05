@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Dr. Smash · Praxis für Smashburger · Nienburg</title>
+<meta name="description" content="Entwurf: Website für Dr. Smash Burger, Leinstraße 17, Nienburg (Weser).">
+<meta name="theme-color" content="#050606">
+<link rel="preload" href="fonts/chakra-petch-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Chakra Petch';font-weight:300;font-display:swap;src:url(fonts/chakra-petch-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:'Chakra Petch';font-weight:400;font-display:swap;src:url(fonts/chakra-petch-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Chakra Petch';font-weight:500;font-display:swap;src:url(fonts/chakra-petch-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Chakra Petch';font-weight:600;font-display:swap;src:url(fonts/chakra-petch-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-weight:400;font-display:swap;src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2')}
+:root{
+  --bg:#050606;--bg2:#0a0c0c;--tx:#e8ece9;--dim:#86908b;--line:rgba(220,235,230,.13);--line2:rgba(220,235,230,.24);
+  --mon:#5ff2c0;--amb:#f2a540;--paper:#eee8db;
+  --disp:'Chakra Petch',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+  --pad:clamp(16px,3vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);font-family:var(--disp);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--mon);color:#021}
+:focus-visible{outline:2px solid var(--mon);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.mon{color:var(--mon)}.amb{color:var(--amb)}.dim{color:var(--dim)}
+h1,h2{font-weight:300;text-transform:uppercase;line-height:.88;letter-spacing:-.005em}
+
+/* grain + watermark */
+.grain{position:fixed;inset:-50%;z-index:80;pointer-events:none;opacity:.06;animation:gr 1s steps(4) infinite;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+.wm{position:fixed;inset:0;z-index:85;pointer-events:none;opacity:.05;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300'%3E%3Cg transform='rotate(-22 230 150)'%3E%3Ctext x='20' y='160' fill='%23fff' font-family='monospace' font-size='15' letter-spacing='3'%3EENTWURF %C2%B7 %C2%A9 ALEXANDER CZILINSKI %C2%B7 NICHT ZUR WEITERGABE%3C/text%3E%3C/g%3E%3C/svg%3E") 0 0/460px 300px repeat}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:100;background:#030404;display:flex;flex-direction:column;justify-content:flex-end;padding:var(--pad);transition:opacity .9s ease,visibility .9s}
+#loader.done{opacity:0;visibility:hidden}
+#loader .big{font-size:clamp(90px,20vw,260px);font-weight:300;line-height:.82;color:var(--mon)}
+#loader .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line2);padding-top:14px;margin-top:14px;color:var(--dim)}
+#loader svg{position:absolute;left:var(--pad);right:var(--pad);top:42%;width:calc(100% - 2*var(--pad));height:60px}
+#loader svg path{stroke-dasharray:2400;stroke-dashoffset:2400;animation:ecg 2.2s linear infinite}
+@keyframes ecg{to{stroke-dashoffset:0}}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);
+  background:linear-gradient(rgba(5,6,6,.85),rgba(5,6,6,0));transition:transform .4s}
+.logo b{display:block;font-size:21px;font-weight:600;letter-spacing:.05em;line-height:1}
+.logo b i{font-style:normal;color:var(--mon)}
+.logo small{display:block;margin-top:5px;color:var(--dim)}
+nav{display:flex;gap:2px}
+nav a{padding:9px 13px;color:var(--dim);transition:color .2s}
+nav a:hover,nav a.on{color:var(--tx)}
+nav a.on::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--mon);margin-right:8px;vertical-align:1px;box-shadow:0 0 8px var(--mon)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 20px;border:1px solid var(--mon);color:var(--mon);font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:background .25s,color .25s;cursor:pointer;background:none}
+.btn:hover{background:var(--mon);color:#021}
+.btn.f{background:var(--mon);color:#021}
+.btn.f:hover{background:#9ff8da}
+.btn.a{border-color:var(--amb);color:var(--amb)}
+.btn.a:hover{background:var(--amb);color:#1a0d00}
+.btn .d{width:6px;height:6px;border-radius:50%;background:currentColor;animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.25}}
+
+/* ECG progress */
+.ecg{position:fixed;left:var(--pad);right:var(--pad);bottom:16px;height:34px;z-index:55;pointer-events:none}
+.ecg svg{position:absolute;inset:0;width:100%;height:100%}
+.ecg .live{clip-path:inset(0 100% 0 0)}
+.ecg .dot{position:absolute;top:50%;width:7px;height:7px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--mon);box-shadow:0 0 12px 3px rgba(95,242,192,.6);left:0}
+
+/* scroll scenes */
+.scene{position:relative}
+.scene .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.scrim-l{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,6,6,.82) 0%,rgba(5,6,6,.4) 38%,rgba(5,6,6,0) 60%);pointer-events:none}
+.scrim-b{position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(transparent,rgba(5,6,6,.9));pointer-events:none}
+.corner{position:absolute;width:22px;height:22px;border:0 solid var(--mon);opacity:.6;pointer-events:none}
+.c-tl{left:calc(var(--pad) - 14px);top:90px;border-width:1px 0 0 1px}.c-tr{right:calc(var(--pad) - 14px);top:90px;border-width:1px 1px 0 0}
+.c-bl{left:calc(var(--pad) - 14px);bottom:62px;border-width:0 0 1px 1px}.c-br{right:calc(var(--pad) - 14px);bottom:62px;border-width:0 1px 1px 0}
+.meta{position:absolute;left:var(--pad);top:104px;color:var(--dim);display:flex;gap:18px;flex-wrap:wrap}
+.meta .rec{color:#ff5a4a}
+.hud{position:absolute;right:var(--pad);top:22vh;display:flex;flex-direction:column;gap:16px;text-align:right}
+.hud div{border-top:1px solid var(--line2);padding-top:7px;width:200px}
+.hud b{display:block;font-size:40px;font-weight:300;line-height:1.05;font-variant-numeric:tabular-nums}
+.hud b sup{font-size:15px;color:var(--mon);vertical-align:top;margin-left:2px}
+.hud span{color:var(--dim)}
+
+/* hero */
+#aufnahme{height:230vh}
+.hero-copy{position:absolute;left:var(--pad);top:26vh;width:min(680px,58vw)}
+.hero-copy h1{font-size:clamp(54px,7.4vw,112px)}
+.hero-copy p{margin-top:26px;max-width:440px;color:#b9c2be;font-size:17px;line-height:1.55}
+.hero-copy .cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.k{display:block;margin-bottom:16px}
+.fadeup{opacity:0;transform:translateY(26px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.ready .fadeup{opacity:1;transform:none}
+.ready .fadeup.d2{transition-delay:.15s}.ready .fadeup.d3{transition-delay:.3s}.ready .fadeup.d4{transition-delay:.45s}
+
+/* eingriff */
+#eingriff{height:440vh}
+.steps{position:absolute;left:var(--pad);top:21vh;width:min(540px,46vw)}
+.step{position:absolute;left:0;top:0;width:100%;opacity:0;transform:translateY(30px);transition:opacity .55s,transform .7s cubic-bezier(.2,.8,.2,1)}
+.step.on{opacity:1;transform:none}
+.step h2{font-size:clamp(48px,7vw,104px)}
+.step p{margin-top:22px;color:#b9c2be;font-size:17px;line-height:1.55;max-width:400px}
+.stepbar{position:absolute;left:var(--pad);bottom:80px;width:min(520px,46vw);display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line2)}
+.stepbar div{padding:12px 14px 0 0;color:var(--dim);position:relative}
+.stepbar div::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--mon);transition:width .5s}
+.stepbar div.on{color:var(--tx)}
+.stepbar div.on::before{width:calc(100% - 14px)}
+.stepbar p{font-family:var(--disp);font-size:13px;letter-spacing:0;text-transform:none;margin-top:6px;line-height:1.45;color:var(--dim)}
+
+/* befund */
+#befund{height:440vh}
+.bef-head{position:absolute;left:var(--pad);top:16vh;width:min(440px,34vw);transition:opacity .6s}
+.bef-head h2{font-size:clamp(44px,5.8vw,86px)}
+.bef-head p{margin-top:20px;color:#b9c2be;line-height:1.55}
+.callouts{position:absolute;inset:0;pointer-events:none}
+.co{position:absolute;width:240px;opacity:0;transition:opacity .5s,transform .6s;transform:translateX(var(--dx,12px))}
+.co.on{opacity:1;transform:none}
+.co .mono{color:var(--mon);display:block}
+.co p{color:var(--dim);font-size:14px;line-height:1.45;margin-top:4px}
+.co::before{content:"";position:absolute;top:7px;height:1px;background:linear-gradient(90deg,var(--mon),rgba(95,242,192,.2));width:var(--lw,60px)}
+.co.r{padding-left:0}.co.r::before{right:calc(100% + 12px);background:linear-gradient(270deg,var(--mon),rgba(95,242,192,.15))}
+.co.l{text-align:right;--dx:-12px}.co.l::before{left:calc(100% + 12px)}
+.co::after{content:"";position:absolute;top:4px;width:7px;height:7px;border-radius:50%;background:var(--mon);box-shadow:0 0 10px var(--mon)}
+.co.r::after{right:calc(100% + 12px + var(--lw,60px) - 3px)}
+.co.l::after{left:calc(100% + 12px + var(--lw,60px) - 3px)}
+.scanline{position:absolute;left:0;right:0;height:2px;background:var(--mon);box-shadow:0 0 18px 4px rgba(95,242,192,.5);opacity:0;pointer-events:none}
+
+/* sections */
+section.pad{padding:clamp(90px,12vw,150px) var(--pad);position:relative}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:56px}
+.sechead h2{font-size:clamp(44px,6vw,88px)}
+.sechead p{max-width:360px;color:var(--dim);line-height:1.55}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .9s,transform 1s cubic-bezier(.2,.8,.2,1)}
+.rv.on{opacity:1;transform:none}
+
+.labs{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--line)}
+.lab{border-right:1px solid var(--line);padding:4px 22px 0}
+.lab b{display:block;font-size:clamp(70px,8.6vw,132px);font-weight:300;line-height:.9;color:var(--amb);font-variant-numeric:tabular-nums}
+.lab b small{font-size:.36em;margin-left:2px}
+.lab h3{margin-top:14px;font-size:19px;font-weight:400}
+.lab .mono{display:block;margin-top:8px;color:var(--dim)}
+.lab .flag{display:inline-block;margin-top:14px;font-size:9.5px;color:#7d6a4a;border:1px dashed #7d6a4a;padding:3px 7px}
+
+/* therapie */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px}
+.tabs button{all:unset;cursor:pointer;padding:10px 14px;border:1px solid var(--line2);color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;transition:.2s}
+.tabs button:hover{color:var(--tx);border-color:var(--tx)}
+.tabs button.on{background:var(--mon);border-color:var(--mon);color:#021}
+.tabs button:focus-visible{outline:2px solid var(--mon);outline-offset:2px}
+.ther{display:grid;grid-template-columns:1.15fr 1fr;gap:30px;align-items:start}
+.feat{position:relative;aspect-ratio:16/12;overflow:hidden;border:1px solid var(--line);background:#000}
+.feat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 8s ease-out}
+.feat.on img{transform:scale(1.0)}
+.feat::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(5,6,6,.92))}
+.feat .cap{position:absolute;left:28px;right:28px;bottom:26px;z-index:2}
+.feat .buy{display:flex;align-items:center;gap:18px;margin-top:18px}
+.feat h3{font-size:clamp(34px,4vw,56px);font-weight:400;text-transform:uppercase;line-height:.95;margin-top:8px}
+.feat p{color:#b9c2be;margin-top:10px;max-width:420px;line-height:1.5}
+.feat .pr{font-size:40px;font-weight:300;white-space:nowrap}
+.list{border-top:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;gap:16px;padding:18px 4px 18px 14px;border-bottom:1px solid var(--line);border-left:2px solid transparent;transition:background .25s,border-color .25s}
+.row:hover{background:rgba(255,255,255,.025);border-left-color:var(--amb)}
+.row b{font-size:21px;font-weight:500;text-transform:uppercase}
+.row small{display:block;color:var(--dim);font-size:13.5px;margin-top:4px;line-height:1.4}
+.row span{font-size:21px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.list .note{margin-top:20px;color:var(--dim)}
+
+/* rezepte */
+.rxs{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.rx{background:var(--paper);color:#1b1814;padding:26px 26px 22px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.7);position:relative;cursor:pointer;transition:transform .35s;
+  background-image:repeating-linear-gradient(transparent 0 29px,rgba(30,60,120,.10) 29px 30px)}
+.rx:nth-child(1){transform:rotate(-1.6deg)}.rx:nth-child(2){transform:rotate(1deg)}.rx:nth-child(3){transform:rotate(-.6deg)}
+.rx:hover{transform:rotate(0) translateY(-6px)}
+.rx .h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1b1814;padding-bottom:10px}
+.rx .h b{font-weight:600;letter-spacing:.04em}
+.rx .h span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.rx .rp{font-size:42px;font-weight:600;font-style:italic;margin:14px 0 6px}
+.rx ul{list-style:none;font-family:var(--mono);font-size:12.5px;line-height:2.2}
+.rx ul li{display:flex;justify-content:space-between;gap:8px}
+.rx ul li i{flex:1;border-bottom:1px dotted #8a8170;margin-bottom:8px;font-style:normal}
+.rx .sum{display:flex;justify-content:space-between;margin-top:12px;font-family:var(--mono);font-size:12.5px;font-weight:500}
+.rx p{margin-top:14px;font-size:14px}
+.rx .stamp{position:absolute;right:18px;bottom:18px;border:3px solid #b8361d;color:#b8361d;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.14em;padding:6px 10px;transform:rotate(-12deg) scale(1.8);opacity:0;transition:transform .25s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.rx.used .stamp{opacity:.85;transform:rotate(-12deg) scale(1)}
+
+/* praxis */
+#sprechzeiten{overflow:hidden}
+#sprechzeiten .bgimg{position:absolute;inset:0;background:url(f/c1d/144.webp) center 30%/cover;opacity:.22}
+#sprechzeiten .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--bg),rgba(5,6,6,.4) 40%,var(--bg))}
+.visit{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.kv{border-top:1px solid var(--line)}
+.kv div{display:grid;grid-template-columns:160px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);font-size:17px}
+.kv .mono{color:var(--dim);padding-top:3px}
+.kv .todo{font-family:var(--mono);font-size:13px;color:#d9b95c}
+.visit .cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.map{position:relative;min-height:420px;border:1px solid var(--line);overflow:hidden;background:#0b0f10}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.92) contrast(.9) brightness(.8) hue-rotate(120deg) saturate(.4)}
+.map .pin{position:absolute;left:12px;top:12px;background:var(--mon);color:#021;padding:6px 10px}
+
+footer{position:relative;padding:60px var(--pad) 90px;border-top:1px solid var(--line)}
+footer .giant{font-size:clamp(60px,15vw,250px);font-weight:600;line-height:.8;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(95,242,192,.35)}
+footer .r{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:34px;color:var(--dim)}
+footer .r a:hover{color:var(--mon)}
+
+.mob{display:none}
+
+@media (max-width:900px){
+  nav,header .btn{display:none}
+  header{padding:14px 16px}
+  .meta,.corner{display:none}
+  .hero-copy{left:16px;right:16px;width:auto;top:auto;bottom:118px}
+  .hero-copy h1{font-size:clamp(42px,12.5vw,64px)}
+  .hero-copy p{font-size:15px;margin-top:16px}
+  .hero-copy .cta{display:none}
+  .hud{left:16px;right:16px;top:auto;bottom:66px;flex-direction:row;gap:10px;text-align:left}
+  .hud div{width:auto;flex:1}
+  .hud b{font-size:24px}.hud b sup{font-size:11px}
+  .hud span{font-size:8.5px;letter-spacing:.06em}
+  #aufnahme .hud{display:none}
+  .scrim-l{background:linear-gradient(rgba(5,6,6,.85),rgba(5,6,6,0) 45%,rgba(5,6,6,0) 55%,rgba(5,6,6,.9))}
+  .steps{left:16px;right:16px;width:auto;top:13vh}
+  .step h2{font-size:clamp(40px,12vw,60px)}
+  .step p{font-size:15px;margin-top:14px}
+  .stepbar{left:16px;right:16px;width:auto;bottom:128px}
+  .stepbar p{display:none}
+  .bef-head{left:16px;right:16px;width:auto;top:12vh}
+  .bef-head h2{font-size:clamp(38px,11vw,56px)}
+  .bef-head p{font-size:14px}
+  .co{width:46vw}
+  .co p{display:none}
+  .co .mono{font-size:9.5px}
+  .sechead{flex-direction:column;align-items:flex-start;margin-bottom:36px}
+  .labs{grid-template-columns:1fr 1fr;border-left:0}
+  .lab{border-right:0;border-bottom:1px solid var(--line);padding:18px 0 22px}
+  .lab:nth-child(odd){padding-right:14px;border-right:1px solid var(--line)}
+  .lab:nth-child(even){padding-left:14px}
+  .ther{grid-template-columns:1fr}
+  .feat{aspect-ratio:4/4.4}
+  .feat .cap{left:18px;right:18px;bottom:18px}
+  .feat .pr{text-align:left;font-size:34px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;margin-left:-16px;margin-right:-16px;padding:0 16px 4px;scrollbar-width:none}
+  .tabs button{flex:none}
+  .rxs{grid-template-columns:1fr;gap:28px}
+  .visit{grid-template-columns:1fr}
+  .kv div{grid-template-columns:1fr;gap:4px}
+  .map{min-height:300px}
+  .ecg{top:0;bottom:auto;left:0;right:0;height:16px;opacity:.8}
+  .mob{display:block;position:fixed;left:16px;right:16px;bottom:max(14px,env(safe-area-inset-bottom));z-index:65}
+  .mob .btn{width:100%;padding:15px}
+  footer{padding-bottom:110px}
+}
+.comob{display:none}
+@media (max-width:900px){.callouts{display:none}.comob{display:block;position:absolute;left:16px;right:16px;bottom:96px;border-top:1px solid var(--line2);padding-top:10px;opacity:0;transition:opacity .4s}.comob.on{opacity:1}.comob p{color:var(--dim);font-size:14px;margin-top:4px}}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="lock">
+<div class="grain" aria-hidden="true"></div>
+<div class="wm" aria-hidden="true"></div>
+
+<div id="loader" role="status" aria-live="polite">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0,32 H420 l14,-6 l10,6 h24 l12,-28 l14,52 l12,-24 h24 l16,-8 l12,8 H1200" fill="none" stroke="#5ff2c0" stroke-width="1.6"/></svg>
+  <div class="mono mon">Patient wird aufgenommen</div>
+  <div class="big"><span id="lnum">000</span></div>
+  <div class="row mono"><span>Dr. Smash</span><span>Praxis für Smashburger</span><span>Leinstraße 17 · Nienburg</span></div>
+</div>
+
+<header>
+  <a href="#aufnahme" class="logo" aria-label="Dr. Smash, zum Anfang"><b>DR.<i>SMASH</i></b><small class="mono">Praxis für Smashburger</small></a>
+  <nav class="mono" aria-label="Hauptnavigation">
+    <a href="#aufnahme" data-s="aufnahme">Aufnahme</a>
+    <a href="#eingriff" data-s="eingriff">Eingriff</a>
+    <a href="#befund" data-s="befund">Befund</a>
+    <a href="#therapie" data-s="therapie">Therapie</a>
+    <a href="#sprechzeiten" data-s="sprechzeiten">Sprechzeiten</a>
+  </nav>
+  <a class="btn" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a>
+</header>
+
+<div class="ecg" aria-hidden="true">
+  <svg viewBox="0 0 1200 34" preserveAspectRatio="none"><path id="ecgp" fill="none" stroke="rgba(95,242,192,.18)" stroke-width="1.2"/></svg>
+  <svg viewBox="0 0 1200 34" preserveAspectRatio="none" class="live"><path id="ecgl" fill="none" stroke="#5ff2c0" stroke-width="1.6"/></svg>
+  <span class="dot" id="ecgdot"></span>
+</div>
+
+<main>
+<!-- 01 AUFNAHME -->
+<section class="scene" id="aufnahme" data-clip="c1" data-frames="145">
+  <div class="pin">
+    <canvas aria-label="Ein Burger liegt auf einem Stahltablett im dunklen OP-Saal, die OP-Lampe schaltet sich ein"></canvas>
+    <div class="scrim-l"></div><div class="scrim-b"></div>
+    <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
+    <div class="meta mono"><span>Patient Nr. 0017</span><span>Leinstraße 17</span><span class="mon" id="clock">● live</span></div>
+    <div class="hero-copy" id="heroCopy">
+      <span class="k mono mon fadeup">Aufnahme</span>
+      <h1 class="fadeup d2">Dr. Smash<br>bittet zur<br>Behandlung</h1>
+      <p class="fadeup d3">Smashburger aus der Leinstraße in Nienburg. Frisch gepresst auf heißem Stahl, mit Diagnose und Rezept.</p>
+      <div class="cta fadeup d4"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">Rezept einlösen</a><a class="btn" href="#sprechzeiten">Sprechzeiten</a></div>
+    </div>
+    <div class="hud mono fadeup d4">
+      <div><b>230<sup>°C</sup></b><span>Stahltemperatur</span></div>
+      <div><b>120<sup>g</sup></b><span>Beef pro Patty</span></div>
+      <div><b id="pulse">72<sup>bpm</sup></b><span>Patient stabil</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 EINGRIFF -->
+<section class="scene" id="eingriff" data-clip="c2" data-frames="193">
+  <div class="pin">
+    <canvas aria-label="Eine Hackfleischkugel wird auf der heißen Platte flach gepresst, es entsteht eine braune Kruste"></canvas>
+    <div class="scrim-l"></div>
+    <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
+    <div class="meta mono"><span class="rec">● REC</span><span>OP-Protokoll <span id="tc">00:00:00:00</span></span></div>
+    <div class="steps">
+      <div class="step on" data-i="0"><span class="k mono mon">Eingriff · Schritt 1 von 3</span><h2>Frisch.<br>Von Hand<br>geformt.</h2><p>120 g frisches Rind, zur Kugel gedreht. Kein Tiefkühl-Patty, nichts vorgegart.</p></div>
+      <div class="step" data-i="1"><span class="k mono mon">Eingriff · Schritt 2 von 3</span><h2>Ein Druck.<br>Volle<br>Kraft.</h2><p>Die Kugel kommt auf den heißen Stahl, die Presse drückt sie flach. Mehr Fläche heißt mehr Kruste.</p></div>
+      <div class="step" data-i="2"><span class="k mono mon">Eingriff · Schritt 3 von 3</span><h2>Das Beef<br>heilt von<br>allein.</h2><p>Nicht wenden, nicht schieben. Die Kruste bildet sich von selbst: dunkel, knusprig, innen saftig.</p></div>
+    </div>
+    <div class="hud mono">
+      <div><b id="hT">230<sup>°C</sup></b><span>Stahl</span></div>
+      <div><b id="hH">70<sup>mm</sup></b><span>Patty-Höhe</span></div>
+    </div>
+    <div class="stepbar mono">
+      <div class="on">1 · Aufnahme<p>Kugel aus frischem Rind</p></div>
+      <div>2 · Eingriff<p>Ein Druck auf die Platte</p></div>
+      <div>3 · Heilung<p>Die Kruste bildet sich</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 BEFUND -->
+<section class="scene" id="befund" data-clip="c3" data-frames="193">
+  <div class="pin">
+    <canvas aria-label="Der Burger dreht sich, ein Scanner fährt durch und die Schichten schweben als Röntgenbild auseinander"></canvas>
+    <div class="scanline" id="scan"></div>
+    <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
+    <div class="bef-head" id="befHead"><span class="k mono mon">Befund</span><h2>Alles da,<br>wo es<br>hingehört</h2><p>Ein Blick ins Innere des Double Smash. Sieben Schichten, keine davon überflüssig.</p></div>
+    <div class="callouts" id="callouts"></div>
+  </div>
+</section>
+
+<!-- 04 LABORWERTE -->
+<section class="pad" id="labor">
+  <div class="sechead rv"><h2>Die Werte<br><span class="mon">stimmen</span></h2><p>Gemessen an der Platte, nicht im Prospekt.</p></div>
+  <div class="labs">
+    <div class="lab rv"><b><span class="cnt" data-to="120">0</span><small>g</small></b><h3>Beef pro Patty</h3><span class="mono">Referenz 100–140</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="230">0</span><small>°</small></b><h3>Stahltemperatur</h3><span class="mono">Referenz 200–250</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="8">0</span><small>s</small></b><h3>Druck auf der Platte</h3><span class="mono">Danach nicht mehr anfassen</span><span class="flag mono">Wert vom Inhaber bestätigen</span></div>
+    <div class="lab rv"><b><span class="cnt" data-to="1">0</span><small>×</small></b><h3>Geheime Doktor-Sauce</h3><span class="mono">Auch als Dip</span></div>
+  </div>
+</section>
+
+<!-- 05 THERAPIE -->
+<section class="pad" id="therapie">
+  <div class="sechead rv"><h2>Der<br><span class="mon">Therapieplan</span></h2><p>Alle Burger auf Brioche. Bestellt wird direkt über Lieferando, geliefert wird nach Hause.</p></div>
+  <div class="ther">
+    <div class="feat rv" id="feat">
+      <img src="img/b5.webp" alt="Double Smash Burger mit Cheddar, Pickles und Zwiebeln auf einer Schieferplatte" loading="lazy">
+      <div class="cap"><div><span class="mono amb">Empfehlung des Doktors</span><h3>Cheesy Smash</h3><p>Patty, Cheddar, Käsesauce, Doktor-Sauce.</p></div>
+        <div class="buy"><div class="pr">8,90 €</div><a class="btn a" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">Verschreiben lassen</a></div></div>
+    </div>
+    <div class="rv">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Kategorien"></div>
+      <div class="list" id="list" role="tabpanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 REZEPTE -->
+<section class="pad" id="rezepte">
+  <div class="sechead rv"><h2>Was der Doktor<br><span class="mon">verschreibt</span></h2><p>Drei fertige Kombinationen. Antippen, und das Rezept wird bei Lieferando eingelöst.</p></div>
+  <div class="rxs">
+    <a class="rx rv" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">
+      <div class="h"><b>DR. SMASH</b><span>Bei großem Hunger</span></div><div class="rp">Rp.</div>
+      <ul><li>1× Smoky Smash Menü<i></i>13,90</li><li>1× Chili Cheese Fries<i></i>5,90</li></ul>
+      <div class="sum"><span>Gesamt</span><span>19,80 €</span></div><p>Für alle, die richtig Hunger mitbringen.</p><span class="stamp">EINGELÖST</span></a>
+    <a class="rx rv" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">
+      <div class="h"><b>DR. SMASH</b><span>Bei Käsemangel</span></div><div class="rp">Rp.</div>
+      <ul><li>1× Cheesy Smash<i></i>8,90</li><li>1× Cheesy BBQ Fries<i></i>6,50</li><li>1× XL Cheese Dip<i></i>2,00</li></ul>
+      <div class="sum"><span>Gesamt</span><span>17,40 €</span></div><p>Dreifache Dosis Käse.</p><span class="stamp">EINGELÖST</span></a>
+    <a class="rx rv" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">
+      <div class="h"><b>DR. SMASH</b><span>Ohne Fleisch</span></div><div class="rp">Rp.</div>
+      <ul><li>1× Falafel Burger<i></i>9,50</li><li>1× Sweet Potato Fries<i></i>4,90</li><li>1× Oreo Shake<i></i>5,90</li></ul>
+      <div class="sum"><span>Gesamt</span><span>20,30 €</span></div><p>Genauso satt, ganz ohne Fleisch.</p><span class="stamp">EINGELÖST</span></a>
+  </div>
+</section>
+
+<!-- 07 SPRECHZEITEN -->
+<section class="pad" id="sprechzeiten">
+  <div class="bgimg" aria-hidden="true"></div>
+  <div class="sechead rv" style="position:relative"><h2>Leinstraße 17<br><span class="dim">31582 Nienburg</span></h2><p>Vor Ort essen, abholen oder liefern lassen.</p></div>
+  <div class="visit">
+    <div class="rv">
+      <div class="kv">
+        <div><span class="mono">Sprechzeiten</span><span class="todo">[Öffnungszeiten vom Inhaber]</span></div>
+        <div><span class="mono">Notaufnahme</span><span>Lieferung über Lieferando</span></div>
+        <div><span class="mono">Telefon</span><span class="todo">[Telefonnummer]</span></div>
+      </div>
+      <div class="cta"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a><a class="btn" href="https://www.openstreetmap.org/search?query=Leinstra%C3%9Fe%2017%2C%2031582%20Nienburg" target="_blank" rel="noopener">Route planen</a></div>
+    </div>
+    <div class="map rv">
+      <iframe title="Karte: Leinstraße 17, Nienburg" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=9.2040%2C52.6395%2C9.2140%2C52.6440&amp;layer=mapnik"></iframe>
+      <span class="pin mono">✚ Dr. Smash · Leinstraße 17</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="giant" aria-hidden="true">Dr.Smash</div>
+  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe</span></div>
+</footer>
+<div class="mob"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a></div>
+
+<script>
+(()=>{
+const ORDER="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)), seg=(p,a,b)=>clamp((p-a)/(b-a));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mobile=()=>innerWidth<900;
+const SET=mobile()?'m':'d';
+
+/* ---------- frame sequences ---------- */
+class Seq{
+  constructor(sec){
+    this.sec=sec;this.cv=sec.querySelector('canvas');this.ctx=this.cv.getContext('2d');
+    this.clip=sec.dataset.clip;this.n=+sec.dataset.frames;this.imgs=new Array(this.n);this.loaded=0;
+    this.cur=-1;this.want=0;this.started=false;
+    this.zoom={c1:1.9,c2:1.75,c3:1.6}[this.clip];this.my={c1:.4,c2:.52,c3:.56}[this.clip];this.k={c1:1,c2:1,c3:.8}[this.clip];this.dx={c1:.13,c2:.1,c3:.05}[this.clip];
+    this.resize();addEventListener('resize',()=>this.resize());
+  }
+  src(i){return `f/${this.clip}${SET}/${String(i).padStart(3,'0')}.webp`}
+  load(onProg){
+    if(this.started)return this.done;this.started=true;
+    const order=[];const step=8;for(let s=0;s<step;s++)for(let i=s;i<this.n;i+=step)order.push(i); // coarse-to-fine
+    this.done=new Promise(res=>{
+      let next=0,active=0;const pump=()=>{
+        while(active<6&&next<order.length){const i=order[next++];active++;const im=new Image();im.decoding='async';
+          im.onload=im.onerror=()=>{this.imgs[i]=im.naturalWidth?im:null;this.loaded++;active--;onProg&&onProg(this.loaded/this.n);
+            if(this.cur<0||Math.abs(i-this.want)<Math.abs(this.cur-this.want))this.draw(this.want,true);
+            if(this.loaded>=this.n)res();else pump()};im.src=this.src(i)}};
+      pump();});
+    return this.done;
+  }
+  resize(){const d=Math.min(2,devicePixelRatio||1);const r=this.cv.getBoundingClientRect();this.w=r.width;this.h=r.height;
+    this.cv.width=Math.round(r.width*d);this.cv.height=Math.round(r.height*d);this.ctx.setTransform(d,0,0,d,0,0);this.cur=-1;this.draw(this.want,true)}
+  rect(){const iw=16,ih=9;let w,h;
+    if(this.w/this.h>=1.2){const s=Math.max(this.w/iw,this.h/ih)*this.k;w=iw*s;h=ih*s;return {x:(this.w-w)/2+this.w*this.dx,y:(this.h-h)/2,w,h}}
+    w=this.w*this.zoom;h=w*ih/iw;return {x:(this.w-w)/2,y:this.h*this.my-h/2,w,h}}
+  nearest(i){if(this.imgs[i])return i;for(let d=1;d<this.n;d++){if(this.imgs[i-d])return i-d;if(this.imgs[i+d])return i+d}return -1}
+  draw(i,force){i=Math.round(clamp(i,0,this.n-1));this.want=i;const k=this.nearest(i);if(k<0||(k===this.cur&&!force))return;this.cur=k;
+    const c=this.ctx,r=this.rect();c.fillStyle='#050606';c.fillRect(0,0,this.w,this.h);c.drawImage(this.imgs[k],r.x,r.y,r.w,r.h);
+    if(r.x>0){const f=Math.min(260,r.w*.2);const g=c.createLinearGradient(r.x,0,r.x+f,0);g.addColorStop(0,'#050606');g.addColorStop(1,'rgba(5,6,6,0)');c.fillStyle=g;c.fillRect(r.x-1,0,f+1,this.h)}
+    if(r.x+r.w<this.w){const f=Math.min(260,r.w*.2);const g=c.createLinearGradient(r.x+r.w-f,0,r.x+r.w,0);g.addColorStop(0,'rgba(5,6,6,0)');g.addColorStop(1,'#050606');c.fillStyle=g;c.fillRect(r.x+r.w-f,0,f+1,this.h)}
+    if(r.h<this.h){const f=Math.min(120,r.h*.25);let g=c.createLinearGradient(0,r.y,0,r.y+f);g.addColorStop(0,'#050606');g.addColorStop(1,'rgba(5,6,6,0)');c.fillStyle=g;c.fillRect(0,r.y-1,this.w,f+1);
+      g=c.createLinearGradient(0,r.y+r.h-f,0,r.y+r.h);g.addColorStop(0,'rgba(5,6,6,0)');g.addColorStop(1,'#050606');c.fillStyle=g;c.fillRect(0,r.y+r.h-f,this.w,f+1)}}
+  progress(){const r=this.sec.getBoundingClientRect();return clamp(-r.top/(this.sec.offsetHeight-innerHeight))}
+}
+const S={};$$('.scene').forEach(s=>S[s.id]=new Seq(s));
+
+/* lazy-load later clips */
+const lio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){S[e.target.id].load();lio.unobserve(e.target)}}),{rootMargin:'200% 0px'});
+lio.observe($('#eingriff'));lio.observe($('#befund'));
+
+/* ---------- loader + hero intro ---------- */
+const lnum=$('#lnum');let shown=0,target=0;
+(function tick(){shown+=(target-shown)*.12;lnum.textContent=String(Math.round(shown)).padStart(3,'0');if(shown<99.5)requestAnimationFrame(tick)})();
+const INTRO_END=36; let intro=reduce?1:0, introDone=reduce;
+S.aufnahme.load(p=>target=Math.min(100,p*100)).then(()=>{
+  target=100;setTimeout(()=>{$('#loader').classList.add('done');document.body.classList.remove('lock');
+    document.body.classList.add('ready');
+    if(!reduce){const t0=performance.now();(function a(t){intro=clamp((t-t0)/1700);if(intro<1)requestAnimationFrame(a);else introDone=true})(t0)}
+    S.eingriff.load();},500)});
+
+/* ---------- befund callouts (positions as fraction of the final x-ray frame) ---------- */
+const LAYERS=[
+  ['Brioche','Weich, leicht süß, auf der Platte angeröstet.',.20,'r'],
+  ['Pickles & Zwiebeln','Säure gegen das Fett.',.335,'l'],
+  ['Doktor-Sauce','Das Rezept bleibt in der Praxis.',.375,'r'],
+  ['Cheddar','Schmilzt über die heiße Kruste.',.41,'l'],
+  ['Smash-Patty','Flach gepresst, knusprige Ränder.',.48,'r'],
+  ['Patty mit Cheddar','Die zweite Dosis.',.62,'l'],
+  ['Brioche unten','Hält alles zusammen.',.83,'r'],
+];
+const coWrap=$('#callouts');
+coWrap.innerHTML=LAYERS.map(([t,d,y,s])=>`<div class="co ${s}"><span class="mono">${t}</span><p>${d}</p></div>`).join('');
+const COS=[...coWrap.children];const coMob=document.createElement('div');coMob.className='comob';$('#befund .pin').appendChild(coMob);
+function placeCallouts(){const sq=S.befund,r=sq.rect(),m=mobile();
+  COS.forEach((el,i)=>{const [, ,y,s]=LAYERS[i];const top=r.y+r.h*y-8;const lw=m?14:Math.max(28,r.w*.05);
+    el.style.setProperty('--lw',lw+'px');el.style.top=top+'px';
+    const half=r.w*(m?.2:.2);const cx=r.x+r.w/2;
+    if(s==='r'){el.style.left=(cx+half+lw+12)+'px';el.style.right='auto'}else{el.style.right=(sq.w-(cx-half-lw-12))+'px';el.style.left='auto'}})}
+addEventListener('resize',placeCallouts);placeCallouts();
+
+/* ---------- ECG ---------- */
+(function(){let d='M0,17';for(let x=0;x<1200;x+=150){d+=` H${x+60} l6,-3 l6,3 h10 l7,-14 l8,28 l7,-14 h10 l8,-4 l6,4`}d+=' H1200';$('#ecgp').setAttribute('d',d);$('#ecgl').setAttribute('d',d)})();
+const ecgLive=$('.ecg .live'),ecgDot=$('#ecgdot');
+
+/* ---------- main loop ---------- */
+const sm={aufnahme:0,eingriff:0,befund:0};
+const steps=$$('.step'),bars=$$('.stepbar div');let curStep=0;
+const navs=$$('nav a');
+function loop(){
+  for(const k in S){const p=S[k].progress();sm[k]+=(p-sm[k])*(reduce?1:.16)}
+  // hero: intro autoplay to lamp-on, then scroll push-in
+  const h=sm.aufnahme;const hf=introDone?INTRO_END+(144-INTRO_END)*h:INTRO_END*intro;
+  S.aufnahme.draw(hf);
+  const hc=$('#heroCopy');hc.style.opacity=1-seg(h,.45,.85);hc.style.transform=`translateY(${-60*seg(h,.45,.85)}px)`;
+  // eingriff
+  const e=sm.eingriff;S.eingriff.draw(e*192);
+  const st=e<.3?0:e<.68?1:2;if(st!==curStep){curStep=st;steps.forEach((s,i)=>s.classList.toggle('on',i===st));bars.forEach((b,i)=>b.classList.toggle('on',i<=st))}
+  $('#hH').innerHTML=Math.round(70-61*seg(e,.3,.62))+'<sup>mm</sup>';
+  const secs=e*8.04;$('#tc').textContent=`00:00:${String(Math.floor(secs)).padStart(2,'0')}:${String(Math.floor(secs%1*24)).padStart(2,'0')}`;
+  // befund
+  const b=sm.befund;S.befund.draw(b*192);
+  $('#befHead').style.opacity=mobile()?1:1-seg(b,.72,.8);
+  if(mobile()){const li=Math.min(LAYERS.length-1,Math.floor(seg(b,.78,.98)*LAYERS.length));coMob.classList.toggle('on',b>.78);coMob.innerHTML=`<span class="mono mon">Schicht ${li+1} von ${LAYERS.length} · ${LAYERS[li][0]}</span><p>${LAYERS[li][1]}</p>`}
+  const shownN=Math.floor(seg(b,.8,.96)*LAYERS.length+.0001);COS.forEach((c,i)=>c.classList.toggle('on',i<shownN));
+  const sc=$('#scan'),sr=S.befund.rect();const sp=seg(b,.2,.62);sc.style.opacity=sp>0&&sp<1?.9:0;sc.style.top=(sr.y+sr.h*(.06+.88*sp))+'px';
+  // ecg progress
+  const tot=document.documentElement.scrollHeight-innerHeight;const gp=clamp(scrollY/tot);
+  ecgLive.style.clipPath=`inset(0 ${100-gp*100}% 0 0)`;ecgDot.style.left=(gp*100)+'%';
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* nav highlight */
+const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navs.forEach(a=>a.classList.toggle('on',a.dataset.s===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+['aufnahme','eingriff','befund','therapie','sprechzeiten'].forEach(id=>nio.observe(document.getElementById(id)));
+
+/* clock + pulse */
+const clk=$('#clock');function ct(){const d=new Date();clk.textContent='● live '+d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}ct();setInterval(ct,20000);
+setInterval(()=>{$('#pulse').innerHTML=(70+Math.round(Math.random()*6))+'<sup>bpm</sup>'},1600);
+
+/* reveals + counters */
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('on');
+  e.target.querySelectorAll('.cnt').forEach(c=>{const to=+c.dataset.to,t0=performance.now();(function f(t){const k=clamp((t-t0)/1300);
+    c.textContent=k<1?Math.round(to*k+(Math.random()-.5)*to*.15*(1-k)):to;if(k<1)requestAnimationFrame(f)})(t0)});
+  if(e.target.id==='feat')e.target.classList.add('on');rio.unobserve(e.target)}),{threshold:.18});
+$$('.rv').forEach(el=>rio.observe(el));
+
+/* stamps */
+$$('.rx').forEach(rx=>rx.addEventListener('click',()=>rx.classList.add('used')));
+
+/* menu */
+const MENU={
+ "Smash Burger":[["Smoky Smash",9.50,"Patty, Cheddar, Smoky-Sauce, Geflügel-Bacon, karamellisierte und Röstzwiebeln, Onion Rings"],["Classic Smash",6.90,"Cheddar, Ketchup, Senf, Pickles, Salat, Zwiebeln"],["Cheesy Smash",8.90,"Cheddar, Käsesauce, Doktor-Sauce"],["Chili Cheese Smash",8.90,"Jalapeños, Cheddar, Chili-Cheese-Sauce"],["Garden Smash",8.90,"Cheddar, Tomate, vegane Mayo, Ketchup, Salat, Zwiebeln"],["Falafel Burger",9.50,"Falafel, Tomate, Salat, Pickles, vegane Mayo, ohne Fleisch"]],
+ "Menüs":[["Classic Menü",11.90,"Classic Smash, Classic Fries, Softdrink"],["Smoky Smash Menü",13.90,"mit Classic Fries und Softdrink"],["Cheesy Smash Menü",13.90,"mit Classic Fries und Softdrink"],["Chili Cheese Smash Menü",13.90,"mit Classic Fries und Softdrink"],["Garden Smash Menü",13.90,"mit Classic Fries und Softdrink"],["Buttermilk Smash Menü",13.90,"mit Classic Fries und Softdrink"],["Falafel Burger Menü",13.90,"mit Classic Fries und Softdrink"]],
+ "Chicken":[["Buttermilk Chicken",9.50,"Chicken Tenders auf Brioche, Doktor-Sauce, Salat, Pickles"],["Chicken Tenders",5.90,"6 Stück, in Buttermilch mariniert"]],
+ "Beilagen":[["Classic Fries",3.90,"Goldgelb, gesalzen"],["Sweet Potato Fries",4.90,"Süßkartoffel-Pommes"],["Chili Cheese Fries",5.90,"Chili-Cheese-Sauce, Jalapeños"],["Parmesan Truffle Fries",6.50,"Trüffel und Parmesan"],["Cheesy BBQ Fries",6.50,"Käsesauce und BBQ"]],
+ "Shakes":[["Oreo Shake",5.90,"Signature, 350 ml"],["Vanilla Shake",4.90,"350 ml"],["Strawberry Shake",4.90,"350 ml"],["Chocolate Shake",4.90,"350 ml"],["Lavacake",4.50,"Schokokuchen mit flüssigem Kern"]],
+ "Kids":[["Kids Menü",6.50,"Kids Smash oder 3 Chicken Fingers, kleine Pommes, Kindergetränk, Spielzeug"]],
+ "Dips & Extras":[["Dr. Smash Dip",1.00,"Die Doktor-Sauce zum Dippen"],["XL Cheese",2.00,"Große Portion Käsesauce"],["Truffle · Garlic · Smoky · Chili Cheese",1.00,"je Dip"],["Ketchup · Mayo",0.50,"je Dip"],["Extra Patty",1.90,"Noch ein Smash obendrauf"],["Geflügel-Bacon",1.30,""],["Onion Rings",1.00,""],["Käsescheibe · Jalapeños · karam. Zwiebeln",0.70,"je Extra"],["Pickles · Röstzwiebeln",0.50,"je Extra"]],
+ "Getränke":[["Fritz-Kola · Kola Zero",2.50,"330 ml"],["Fritz-Limo Orange",2.50,"330 ml"],["Fritz-Mischmasch",2.50,"330 ml"],["Fritz-Spritz",2.50,"Apfel, Apfel-Kirsch oder Holunder, 330 ml"],["Wasser",2.00,"still oder sprudelnd"]],
+};
+const eur=v=>v.toFixed(2).replace('.',',');
+const tabs=$('#tabs'),list=$('#list');
+function show(cat){[...tabs.children].forEach(b=>{const on=b.textContent===cat;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
+  list.innerHTML=MENU[cat].map(([n,p,d])=>`<a class="row" href="${ORDER}" target="_blank" rel="noopener"><div><b>${n}</b>${d?`<small>${d}</small>`:''}</div><span>${eur(p)}</span></a>`).join('')+
+  (cat==='Smash Burger'?'<p class="note mono">Als Menü mit Pommes und Getränk ab 11,90 €</p>':'')}
+Object.keys(MENU).forEach(c=>{const b=document.createElement('button');b.textContent=c;b.setAttribute('role','tab');b.onclick=()=>show(c);tabs.appendChild(b)});
+show("Smash Burger");
+})();
+</script>
+</body>
+</html>
