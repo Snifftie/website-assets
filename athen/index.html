@@ -167,9 +167,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .mbar a.f{background:var(--gold);color:var(--ink);font-weight:600;border:0}
 @media(min-width:900px){.mbar{display:none}}
 
-/* Küchenfahrt: der Abschnitt bleibt stehen, das Video spult mit dem Scrollen. 4 Stationen = 4 Gerichte der Karte. */
-.tour{position:relative;height:420vh;margin-top:clamp(60px,8vw,110px)}
-.tour-in{position:sticky;top:72px;height:calc(100vh - 72px);height:calc(100svh - 72px);overflow:hidden;background:var(--ink)}
+/* Küchenfahrt: Video spielt von selbst, sobald der Abschnitt im Bild ist. 4 Stationen = 4 Gerichte der Karte. */
+.tour{position:relative;margin-top:clamp(60px,8vw,110px)}
+.tour-in{position:relative;height:min(calc(100vh - 72px),820px);height:min(calc(100svh - 72px),820px);min-height:560px;overflow:hidden;background:var(--ink)}
 .tour-stage{position:absolute;inset:0}
 .tour-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .tour-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,39,53,.94) 0%,rgba(27,39,53,.6) 32%,rgba(27,39,53,0) 58%),linear-gradient(0deg,rgba(27,39,53,.75),transparent 28%)}
@@ -193,13 +193,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .tour-cta{display:flex;gap:12px;flex-wrap:wrap}
 .tour-stills{display:none}
 @media(max-width:699px){
+ .tour-in{height:auto;min-height:0}
  .tour-stage{position:relative;inset:auto;aspect-ratio:16/9;max-width:100%}
  .tour-stage:after{background:linear-gradient(0deg,var(--ink),transparent 35%)}
  .tour-copy{height:auto;padding-block:18px 84px;justify-content:flex-start;gap:20px}
  .tour-cta .btn{padding:14px 16px;font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){
- .tour{height:auto}.tour-in{position:static;height:auto}
+ .tour-in{height:auto;min-height:0}
  .tour-stage,.stops,.tour-prog{display:none}
  .tour-copy{height:auto;padding-block:20px}
  .tour-stills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
@@ -443,40 +444,29 @@ function renderHours(){
     el.querySelector("span").textContent=txt}
 }
 
-// ---------- Küchenfahrt: das Video folgt dem Scrollen ----------
+// ---------- Küchenfahrt: Video spielt von selbst, Texte folgen dem Video ----------
 (function(){
   const sec=$("#kueche"),v=$("#tourVid");if(!sec||!v)return;
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const stops=[...sec.querySelectorAll(".stop")],bars=[...sec.querySelectorAll(".tour-prog span")],num=$("#tourN");
-  // Scroll-Anteil → Videozeit; jede Station bekommt ein Viertel des Scrollwegs
-  const P=[0,.25,.5,.75,1],T=[0,1.6,5.6,8.6,11.95];
-  const NAV=72;
+  const T=[0,1.6,5.6,8.6,12.04]; // Videozeit, ab der die jeweilige Station im Bild ist
+  const RATE=.8;                 // etwas ruhiger als gedreht: ca. 15 Sekunden
   v.src=matchMedia("(min-width:700px)").matches?"aimg/tour-d.mp4":"aimg/tour-m.mp4";
-  v.load();
-  v.addEventListener("loadedmetadata",()=>{if(v.duration)T[4]=v.duration-.05});
-  // iOS gibt das Spulen erst nach einer Berührung frei
-  addEventListener("touchstart",()=>{const p=v.play();if(p)p.then(()=>v.pause()).catch(()=>{})},{passive:true,once:true});
-  let cur=0,active=0;
-  function progress(){
-    const r=sec.getBoundingClientRect(),span=sec.offsetHeight-(innerHeight-NAV);
-    return Math.min(1,Math.max(0,(NAV-r.top)/Math.max(1,span)));
+  v.defaultPlaybackRate=RATE;v.load();
+  let active=0;
+  function show(){
+    const t=v.currentTime;T[4]=v.duration||T[4];
+    let i=3;for(let j=0;j<4;j++)if(t<T[j+1]){i=j;break}
+    const k=Math.min(1,Math.max(0,(t-T[i])/(T[i+1]-T[i])));
+    bars.forEach((b,j)=>b.style.transform="scaleX("+(j<i?1:j>i?0:k)+")");
+    if(i!==active){active=i;stops.forEach((s,j)=>s.classList.toggle("on",j===i));num.textContent=(i+1)+" / 4"}
   }
-  function at(p){
-    for(let i=0;i<4;i++)if(p<=P[i+1]){const k=(p-P[i])/(P[i+1]-P[i]);return{t:T[i]+k*(T[i+1]-T[i]),i,k}}
-    return{t:T[4],i:3,k:1};
-  }
-  function tick(){
-    const r=sec.getBoundingClientRect();
-    if(r.bottom>0&&r.top<innerHeight){
-      const {t,i,k}=at(progress());
-      bars.forEach((b,j)=>b.style.transform="scaleX("+(j<i?1:j>i?0:k)+")");
-      if(i!==active){active=i;stops.forEach((s,j)=>s.classList.toggle("on",j===i));num.textContent=(i+1)+" / 4"}
-      cur+=(t-cur)*.2;if(Math.abs(t-cur)<.01)cur=t;
-      if(v.readyState>=1&&!v.seeking&&Math.abs(v.currentTime-cur)>.03)v.currentTime=cur;
-    }
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
+  function loop(){show();if(!v.paused&&!v.ended)requestAnimationFrame(loop)}
+  v.addEventListener("play",()=>requestAnimationFrame(loop));
+  v.addEventListener("ended",show);
+  // Läuft, solange der Abschnitt zu sehen ist; danach Pause. Ist es durch, startet es beim nächsten Besuch neu.
+  function start(){if(v.ended)v.currentTime=0;v.playbackRate=RATE;const p=v.play();if(p)p.catch(()=>{})}
+  new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)start();else if(!v.paused)v.pause()}),{threshold:.45}).observe(sec);
 })();
 
 renderTabs();renderMenu();fillQbar();
