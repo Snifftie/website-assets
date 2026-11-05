@@ -163,8 +163,7 @@ section.pad{padding:clamp(90px,12vw,150px) var(--pad);position:relative}
 .tabs button:focus-visible{outline:2px solid var(--mon);outline-offset:2px}
 .ther{display:grid;grid-template-columns:1.15fr 1fr;gap:30px;align-items:start}.ther>*{min-width:0}
 .feat{position:relative;aspect-ratio:16/12;overflow:hidden;border:1px solid var(--line);background:#000}
-.feat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 8s ease-out}
-.feat.on img{transform:scale(1.0)}
+.feat video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .feat::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(5,6,6,.92))}
 .feat .cap{position:absolute;left:28px;right:28px;bottom:26px;z-index:2}
 .feat .buy{display:flex;align-items:center;gap:18px;margin-top:18px}
@@ -383,7 +382,7 @@ footer .r a:hover{color:var(--mon)}
   <div class="sechead rv"><h2>Der<br><span class="mon">Therapieplan</span></h2><p>Alle Burger auf Brioche. Bestellt wird direkt über Lieferando, geliefert wird nach Hause.</p></div>
   <div class="ther">
     <div class="feat rv" id="feat">
-      <img src="img/b5.webp" alt="Double Smash Burger mit Cheddar, Pickles und Zwiebeln auf einer Schieferplatte" loading="lazy">
+      <video id="steam" muted loop playsinline autoplay preload="metadata" poster="img/steam-poster.webp" aria-label="Dampfender Double Smash Burger mit Cheddar, Pickles und Zwiebeln auf einer Schieferplatte"></video>
       <div class="cap"><div><span class="mono amb">Empfehlung des Doktors</span><h3>Cheesy Smash</h3><p>Patty, Cheddar, Käsesauce, Doktor-Sauce.</p></div>
         <div class="buy"><div class="pr">8,90 €</div><a class="btn a" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener">Verschreiben lassen</a></div></div>
     </div>
@@ -549,6 +548,9 @@ $$('.rv').forEach(el=>rio.observe(el));
  const [a,b]=H[wd],el=$('#open');const fmt=h=>`${Math.floor(h)}:${String(Math.round(h%1*60)).padStart(2,'0')}`;
  if(t>=a&&t<b){el.classList.add('yes');el.textContent=`● Jetzt geöffnet · bis ${fmt(b)} Uhr`}
  else{const n=t<a?a:H[(wd+1)%7][0];el.textContent=`● Geschlossen · öffnet ${t<a?'heute':'morgen'} um ${fmt(n)} Uhr`}})();
+
+/* steam loop: load + play only near the viewport */
+(function(){const v=$('#steam');let set=false;new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!set){v.src=`v/steam${SET}.mp4`;set=true}v.play().catch(()=>{})}else v.pause()}),{rootMargin:'200px 0px'}).observe(v)})();
 
 /* stamps */
 $$('.rx').forEach(rx=>rx.addEventListener('click',()=>rx.classList.add('used')));
