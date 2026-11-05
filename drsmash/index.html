@@ -51,7 +51,8 @@ h1,h2{font-weight:300;text-transform:uppercase;line-height:.88;letter-spacing:-.
 
 /* nav */
 header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);
-  background:linear-gradient(rgba(5,6,6,.85),rgba(5,6,6,0));transition:transform .4s}
+  background:linear-gradient(rgba(5,6,6,.85),rgba(5,6,6,0));transition:background .3s}
+header.solid{background:rgba(5,6,6,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .logo b{display:block;font-size:21px;font-weight:600;letter-spacing:.05em;line-height:1}
 .logo b i{font-style:normal;color:var(--mon)}
 .logo small{display:block;margin-top:5px;color:var(--dim)}
@@ -521,7 +522,8 @@ requestAnimationFrame(sync);
 (function(){let d='M0,17';for(let x=0;x<1200;x+=150){d+=` H${x+60} l6,-3 l6,3 h10 l7,-14 l8,28 l7,-14 h10 l8,-4 l6,4`}d+=' H1200';$('#ecgp').setAttribute('d',d);$('#ecgl').setAttribute('d',d)})();
 const ecgLive=$('.ecg .live'),ecgDot=$('#ecgdot');
 function ecg(){const tot=document.documentElement.scrollHeight-innerHeight;const gp=clamp(scrollY/tot);ecgLive.style.clipPath=`inset(0 ${100-gp*100}% 0 0)`;ecgDot.style.left=(gp*100)+'%'}
-addEventListener('scroll',ecg,{passive:true});ecg();
+const hdr=$('header');function hs(){hdr.classList.toggle('solid',scrollY>innerHeight*.6)}
+addEventListener('scroll',()=>{ecg();hs()},{passive:true});ecg();hs();
 
 /* nav highlight */
 const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navs.forEach(a=>a.classList.toggle('on',a.dataset.s===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
