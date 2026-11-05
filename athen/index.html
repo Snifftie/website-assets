@@ -192,6 +192,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .tour-prog em{font:500 12px var(--sans);font-style:normal;letter-spacing:.2em;color:var(--mute);margin-left:8px;font-variant-numeric:tabular-nums}
 .tour-cta{display:flex;gap:12px;flex-wrap:wrap}
 .tour-stills{display:none}
+.tour-play{position:absolute;z-index:3;left:50%;top:50%;transform:translate(-50%,-50%);padding:14px 22px;background:rgba(27,39,53,.85);border:1px solid var(--gold);color:var(--gold);font:500 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.tour-play:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
 @media(max-width:699px){
  .tour-in{height:auto;min-height:0}
  .tour-stage{position:relative;inset:auto;aspect-ratio:16/9;max-width:100%}
@@ -233,7 +235,7 @@ footer .copy{text-transform:none;letter-spacing:.04em;line-height:1.6;max-width:
 
 <section class="tour" id="kueche" aria-labelledby="tourH">
 <div class="tour-in">
-<div class="tour-stage"><video id="tourVid" muted playsinline preload="auto" poster="aimg/tour-1.jpg" aria-hidden="true"></video></div>
+<div class="tour-stage"><video id="tourVid" muted playsinline preload="auto" poster="aimg/tour-1.jpg" aria-hidden="true"></video><button class="tour-play" id="tourPlay" type="button" hidden>▶ Video abspielen</button></div>
 <div class="tour-copy">
 <div class="tour-head"><span class="eyebrow">Ein Gang durch unsere Küche</span><h2 id="tourH">Was auf den <i>Tisch</i> kommt</h2></div>
 <ol class="stops">
@@ -465,7 +467,10 @@ function renderHours(){
   v.addEventListener("play",()=>requestAnimationFrame(loop));
   v.addEventListener("ended",show);
   // Läuft, solange der Abschnitt zu sehen ist; danach Pause. Ist es durch, startet es beim nächsten Besuch neu.
-  function start(){if(v.ended)v.currentTime=0;v.playbackRate=RATE;const p=v.play();if(p)p.catch(()=>{})}
+  // Blockiert das Gerät das automatische Abspielen (z. B. Energiesparmodus), erscheint ein Abspiel-Knopf.
+  const btn=$("#tourPlay");
+  btn.onclick=()=>{btn.hidden=true;start()};
+  function start(){if(v.ended)v.currentTime=0;v.playbackRate=RATE;const p=v.play();if(p)p.then(()=>{btn.hidden=true}).catch(()=>{btn.hidden=false})}
   new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)start();else if(!v.paused)v.pause()}),{threshold:.45}).observe(sec);
 })();
 
