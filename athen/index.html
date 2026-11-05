@@ -166,6 +166,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .mbar a{padding:16px 6px;text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;border-right:1px solid var(--line)}
 .mbar a.f{background:var(--gold);color:var(--ink);font-weight:600;border:0}
 @media(min-width:900px){.mbar{display:none}}
+
+/* Küchenfahrt: der Abschnitt bleibt stehen, das Video spult mit dem Scrollen. 4 Stationen = 4 Gerichte der Karte. */
+.tour{position:relative;height:420vh;margin-top:clamp(60px,8vw,110px)}
+.tour-in{position:sticky;top:72px;height:calc(100vh - 72px);height:calc(100svh - 72px);overflow:hidden;background:var(--ink)}
+.tour-stage{position:absolute;inset:0}
+.tour-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.tour-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,39,53,.94) 0%,rgba(27,39,53,.6) 32%,rgba(27,39,53,0) 58%),linear-gradient(0deg,rgba(27,39,53,.75),transparent 28%)}
+.tour-copy{position:relative;z-index:2;height:100%;max-width:1240px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;justify-content:center;gap:30px}
+@media(min-width:700px){.tour-copy{padding:0 48px}
+ /* Bild rechts neben den Text, damit das Gericht nicht unter der Schrift liegt */
+ .tour-stage{left:32%}
+ .tour-stage:after{background:linear-gradient(90deg,var(--ink) 0%,rgba(27,39,53,0) 24%),linear-gradient(0deg,rgba(27,39,53,.6),transparent 25%)}}
+.tour-head h2{font-size:clamp(34px,4.6vw,60px);margin-top:14px;max-width:520px}
+.stops{list-style:none;margin:0;padding:0;display:grid;max-width:430px}
+.stop{grid-area:1/1;opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease}
+.stop.on{opacity:1;transform:none}
+.stop small{font:500 12px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--mute)}
+.stop b{display:block;font:400 clamp(32px,3.4vw,44px)/1.05 var(--serif);margin:10px 0 8px}
+.stop p{margin:0;color:var(--soft);line-height:1.6}
+.stop .price{display:block;margin-top:10px}
+.tour-prog{display:flex;align-items:center;gap:8px;max-width:430px}
+.tour-prog i{flex:1;height:2px;background:var(--line);position:relative;overflow:hidden}
+.tour-prog i span{position:absolute;inset:0;background:var(--gold);transform-origin:left;transform:scaleX(0)}
+.tour-prog em{font:500 12px var(--sans);font-style:normal;letter-spacing:.2em;color:var(--mute);margin-left:8px;font-variant-numeric:tabular-nums}
+.tour-cta{display:flex;gap:12px;flex-wrap:wrap}
+.tour-stills{display:none}
+@media(max-width:699px){
+ .tour-stage{position:relative;inset:auto;aspect-ratio:16/9;max-width:100%}
+ .tour-stage:after{background:linear-gradient(0deg,var(--ink),transparent 35%)}
+ .tour-copy{height:auto;padding-block:18px 84px;justify-content:flex-start;gap:20px}
+ .tour-cta .btn{padding:14px 16px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ .tour{height:auto}.tour-in{position:static;height:auto}
+ .tour-stage,.stops,.tour-prog{display:none}
+ .tour-copy{height:auto;padding-block:20px}
+ .tour-stills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+ .tour-stills figure{margin:0}.tour-stills img{width:100%;aspect-ratio:16/9;object-fit:cover}
+ .tour-stills figcaption{margin-top:10px;font:400 24px var(--serif)}.tour-stills figcaption span{color:var(--gold);margin-left:8px}
+}
 /* Wasserzeichen: Rechte am Entwurf liegen bei Alexander Czilinski. Liegt über allem, fängt keine Klicks ab. */
 body::after{content:"";position:fixed;inset:0;z-index:70;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300'%3E%3Cg transform='rotate(-24 230 150)' fill='%23cfab62' fill-opacity='0.13' font-family='Georgia,serif' text-anchor='middle'%3E%3Ctext x='230' y='140' font-size='22'%3E%C2%A9 Alexander Czilinski%3C/text%3E%3Ctext x='230' y='168' font-size='12' letter-spacing='3'%3EENTWURF %C2%B7 NICHT ZUR WEITERGABE%3C/text%3E%3C/g%3E%3C/svg%3E") 0 0/460px 300px repeat}
 footer .copy{text-transform:none;letter-spacing:.04em;line-height:1.6;max-width:640px}
@@ -190,17 +230,38 @@ footer .copy{text-transform:none;letter-spacing:.04em;line-height:1.6;max-width:
 <label><small>Personen</small><select id="qGuests"></select></label>
 <button class="btn f" id="qGo" type="button">Weiter</button></form>
 
+<section class="tour" id="kueche" aria-labelledby="tourH">
+<div class="tour-in">
+<div class="tour-stage"><video id="tourVid" muted playsinline preload="auto" poster="aimg/tour-1.jpg" aria-hidden="true"></video></div>
+<div class="tour-copy">
+<div class="tour-head"><span class="eyebrow">Ein Gang durch unsere Küche</span><h2 id="tourH">Was auf den <i>Tisch</i> kommt</h2></div>
+<ol class="stops">
+<li class="stop on"><small>Käse</small><b>Feta</b><p>Schafskäse mit Oliven, Peperoni, Zwiebeln und Olivenöl</p><span class="price">7,30 €</span></li>
+<li class="stop"><small>Vom Grill</small><b>Souvlaki</b><p>Fleischspieße vom Grill, dazu Pommes und gemischter Salat</p><span class="price">15,20 €</span></li>
+<li class="stop"><small>Warme Vorspeisen</small><b>Gambas in Knoblauchöl</b><p>Mit frischem Basilikum und pikant gewürztem Schafskäse</p><span class="price">9,80 €</span></li>
+<li class="stop"><small>Für zwei Personen</small><b>Marie-Platte</b><p>2 Lammfilets, 2 Souvlaki, 2 Schweinesteaks, Gyros, Tzatziki und griechischer Dorfsalat, dazu Pommes</p><span class="price">48,00 €</span></li>
+</ol>
+<div class="tour-prog" aria-hidden="true"><i><span></span></i><i><span></span></i><i><span></span></i><i><span></span></i><em id="tourN">1 / 4</em></div>
+<div class="tour-stills">
+<figure><img src="aimg/tour-1.jpg" alt="Feta mit Olivenöl" loading="lazy"><figcaption>Feta<span>7,30 €</span></figcaption></figure>
+<figure><img src="aimg/tour-2.jpg" alt="Souvlaki-Spieße über Glut" loading="lazy"><figcaption>Souvlaki<span>15,20 €</span></figcaption></figure>
+<figure><img src="aimg/tour-3.jpg" alt="Gambas in der Pfanne" loading="lazy"><figcaption>Gambas in Knoblauchöl<span>9,80 €</span></figcaption></figure>
+<figure><img src="aimg/tour-4.jpg" alt="Grillplatte für zwei" loading="lazy"><figcaption>Marie-Platte<span>48,00 €</span></figcaption></figure>
+</div>
+<div class="tour-cta"><a class="btn f" href="#karte">Ganze Speisekarte</a><a class="btn" href="#reservieren">Tisch reservieren</a></div>
+</div></div></section>
+
 <main class="wrap">
 
 <section class="sec" id="karte">
 <div class="mhead"><span class="eyebrow">Speisekarte</span><h2>Aus unserer <i>Küche</i></h2><div class="meander"></div>
-<p style="color:var(--soft);max-width:560px;margin:0">Alle Hauptgerichte mit Reis und Salatteller. Fragen zu Allergenen beantworten wir gern persönlich.</p></div>
+<p style="color:var(--soft);max-width:560px;margin:0">Zu Grill-, Lamm- und Pfannengerichten servieren wir Pommes und gemischten Salat. Fragen zu Allergenen beantworten wir gern persönlich.</p></div>
 <div class="mtools">
 <div class="tabs" id="tabs"></div>
 <div class="mrow"><label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cfab62" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Gericht suchen, z. B. Lamm oder Feta" aria-label="Gericht suchen"></label>
 <button class="chip" id="vegChip" type="button">Vegetarisch</button><button class="chip" id="tipChip" type="button">★ Tipp des Hauses</button></div></div>
 <div id="menu"></div>
-<div class="mnote"><b style="color:var(--gold)">Hinweis zur Vorschau:</b> Auszug mit Gerichten und Preisen aus der Speisekarte von 2021. Die vollständige, aktuelle Karte wird übernommen und lässt sich später ohne Programmierkenntnisse pflegen. Fotos sind Platzhalter.</div>
+<div class="mnote"><b style="color:var(--gold)">Hinweis zur Vorschau:</b> Auszug mit Gerichten und Preisen aus der Speisekarte mit Stand November 2023. Die vollständige, aktuelle Karte wird übernommen und lässt sich später ohne Programmierkenntnisse pflegen. Fotos und Video sind Platzhalter und werden durch Aufnahmen aus Ihrer Küche ersetzt.</div>
 </section>
 
 <section class="sec" id="reservieren">
@@ -245,26 +306,36 @@ footer .copy{text-transform:none;letter-spacing:.04em;line-height:1.6;max-width:
 <nav class="mbar"><a href="tel:+49502163450">Anrufen</a><a href="#karte">Karte</a><a class="f" href="#reservieren">Reservieren</a></nav>
 
 <script>
-// ---------- Daten (Speisekarte 2021, Auszug) ----------
+// ---------- Daten (Speisekarte Stand Nov. 2023, Auszug) ----------
 const MENU=[
  {cat:"Vorspeisen",items:[
-  {n:"Feta",d:"Griechischer Schafskäse",p:7.30,veg:1,img:"aimg/oliven.jpg"},
-  {n:"Dolmadakia",d:"Gefüllte Weinblätter",p:7.40}]},
+  {n:"Diafora",d:"Diverse Vorspeisen mit Tzatziki, Calamarissalat, Tarama, Tirokafteri, Dolmadakia, Schafskäse, Oliven und Peperoni",p:9.90,tip:1},
+  {n:"Feta",d:"Schafskäse mit Oliven, Peperoni, Zwiebeln und Olivenöl",p:7.30,veg:1,img:"aimg/oliven.jpg"},
+  {n:"Saganaki",d:"Schafskäse im Teigmantel mit Oliven, Peperoni und Zwiebeln",p:8.40,veg:1},
+  {n:"Gambas in Knoblauchöl",d:"Mit frischem Basilikum und pikant gewürztem Schafskäse",p:9.80},
+  {n:"Dolmadakia",d:"Weinblätter gefüllt mit Hackfleisch und Reis",p:8.20}]},
  {cat:"Salate",items:[
-  {n:"Bauernsalat",d:"Tomaten, Gurken, Paprika, Oliven und Feta",p:14.50,veg:1,img:"aimg/salat.jpg"}]},
+  {n:"Griechischer Dorfsalat",d:"Tomaten, Gurken, Schafskäse, Oliven, Peperoni, Zwiebeln und Paprika mit Öl-Essig",p:11.50,veg:1,img:"aimg/salat.jpg"},
+  {n:"Gyros-Salat",d:"Gyros auf frischem Salat mit Tomaten, Gurken und Zwiebeln",p:11.90}]},
  {cat:"Vom Grill",items:[
-  {n:"Athen-Teller",d:"Gyros, Souvlaki, Lammkotelett, Leber und Suzuki",p:22.90,tip:1,img:"aimg/teller.jpg"},
-  {n:"Gyros",d:"Vom Drehspieß",p:17.50,img:"aimg/gyros.jpg"},
-  {n:"Souvlaki I",d:"Fleischspieße vom Grill",p:17.80,img:"aimg/souvlaki.jpg"},
-  {n:"Suzukakia",d:"Gewürzte Hackfleischröllchen",p:17.30},
-  {n:"Bifteki",d:"Gefüllt mit Feta und Tomaten",p:19.00,tip:1}]},
- {cat:"Spezialitäten",items:[
-  {n:"Schweinefilet",d:"Mit Kräuterbutter",p:21.50},
-  {n:"Lammkoteletts",d:"Vom Grill",p:23.50},
-  {n:"Rumpsteak",d:"Ca. 280 g",p:29.50}]},
- {cat:"Meeresfrüchte",items:[
-  {n:"Calamaris",d:"Tintenfischringe",p:16.90},
-  {n:"Gambas",d:"Riesengarnelen",p:22.50}]}
+  {n:"Gyros mit Tzatziki",d:"Mit Pommes und gemischtem Salat",p:14.90,img:"aimg/gyros.jpg"},
+  {n:"Gyros überbacken",d:"Mit Metaxasauce und Käse",p:16.90,tip:1},
+  {n:"Souvlaki",d:"Fleischspieße vom Grill",p:15.20,img:"aimg/souvlaki.jpg"},
+  {n:"Souzouki",d:"Hackfleischröllchen",p:14.20},
+  {n:"Bifteki Spezial",d:"Gefüllt mit Tomaten, Zwiebeln und Schafskäse",p:15.90}]},
+ {cat:"Aus dem Backofen",items:[
+  {n:"Mousaka",d:"Kartoffelscheiben, Auberginen und Hackfleisch, mit Béchamelsauce überbacken",p:14.90},
+  {n:"Stifado",d:"Lammfleisch im eigenen Saft mit geschmorten Zwiebeln, dazu Pommes",p:18.50}]},
+ {cat:"Vom Lamm",items:[
+  {n:"Lammkoteletts",d:"Vom Grill",p:23.90},
+  {n:"Lamm-Platte",d:"Lammfilets und Lammkoteletts mit Sauce Béarnaise",p:27.50}]},
+ {cat:"Aus Poseidons Reich",items:[
+  {n:"Calamaris",d:"Tintenfisch, dazu Tzatziki, Zucchini und Salat",p:16.90},
+  {n:"Gambas auf frischem Gemüse",d:"Dazu Tzatziki, Zucchini und Salat",p:22.50},
+  {n:"Fischplatte",d:"Zanderfilet, Calamaris und Gambas",p:23.50}]},
+ {cat:"Platten für zwei",items:[
+  {n:"Marie-Platte",d:"2 Lammfilets, 2 Souvlaki, 2 Schweinesteaks, Gyros, Tzatziki und griechischer Dorfsalat, dazu Pommes",p:48.00,tip:1,img:"aimg/teller.jpg"},
+  {n:"Lavinia-Platte",d:"2 Lammfilets, 2 Hüftsteaks, 2 Schweinemedaillons, 2 Hähncheninnenfilets, Tzatziki und griechischer Dorfsalat, dazu Pommes",p:55.00}]}
 ];
 // Öffnungszeiten: 0=So … 6=Sa  [Start,Ende] in Minuten; letzte Reservierung 21:00 (Küche bis 22)
 const HOURS={0:[[720,870],[1020,1380]],1:[],2:[[1020,1380]],3:[[1020,1380]],4:[[1020,1380]],5:[[1020,1380]],6:[[1020,1380]]};
@@ -371,6 +442,42 @@ function renderHours(){
     if(nx)txt="Öffnet heute um "+hm(nx[0])+" Uhr";else{for(let k=1;k<8;k++){const d=(now.getDay()+k)%7;if(HOURS[d].length){txt="Öffnet "+(k===1?"morgen":DL[d])+" um "+hm(HOURS[d][0][0])+" Uhr";break}}}
     el.querySelector("span").textContent=txt}
 }
+
+// ---------- Küchenfahrt: das Video folgt dem Scrollen ----------
+(function(){
+  const sec=$("#kueche"),v=$("#tourVid");if(!sec||!v)return;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const stops=[...sec.querySelectorAll(".stop")],bars=[...sec.querySelectorAll(".tour-prog span")],num=$("#tourN");
+  // Scroll-Anteil → Videozeit; jede Station bekommt ein Viertel des Scrollwegs
+  const P=[0,.25,.5,.75,1],T=[0,1.6,5.6,8.6,11.95];
+  const NAV=72;
+  v.src=matchMedia("(min-width:700px)").matches?"aimg/tour-d.mp4":"aimg/tour-m.mp4";
+  v.load();
+  v.addEventListener("loadedmetadata",()=>{if(v.duration)T[4]=v.duration-.05});
+  // iOS gibt das Spulen erst nach einer Berührung frei
+  addEventListener("touchstart",()=>{const p=v.play();if(p)p.then(()=>v.pause()).catch(()=>{})},{passive:true,once:true});
+  let cur=0,active=0;
+  function progress(){
+    const r=sec.getBoundingClientRect(),span=sec.offsetHeight-(innerHeight-NAV);
+    return Math.min(1,Math.max(0,(NAV-r.top)/Math.max(1,span)));
+  }
+  function at(p){
+    for(let i=0;i<4;i++)if(p<=P[i+1]){const k=(p-P[i])/(P[i+1]-P[i]);return{t:T[i]+k*(T[i+1]-T[i]),i,k}}
+    return{t:T[4],i:3,k:1};
+  }
+  function tick(){
+    const r=sec.getBoundingClientRect();
+    if(r.bottom>0&&r.top<innerHeight){
+      const {t,i,k}=at(progress());
+      bars.forEach((b,j)=>b.style.transform="scaleX("+(j<i?1:j>i?0:k)+")");
+      if(i!==active){active=i;stops.forEach((s,j)=>s.classList.toggle("on",j===i));num.textContent=(i+1)+" / 4"}
+      cur+=(t-cur)*.2;if(Math.abs(t-cur)<.01)cur=t;
+      if(v.readyState>=1&&!v.seeking&&Math.abs(v.currentTime-cur)>.03)v.currentTime=cur;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
 
 renderTabs();renderMenu();fillQbar();
 selDay=firstOpenDay()||null;fillQTimes();renderAll();renderHours();
