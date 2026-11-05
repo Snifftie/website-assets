@@ -268,6 +268,16 @@ footer .r a:hover{color:var(--mon)}
 .comob{display:none}
 @media (max-width:900px){.callouts{display:none}.comob{display:block;position:absolute;left:16px;right:16px;bottom:96px;border-top:1px solid var(--line2);padding-top:10px;opacity:0;transition:opacity .4s}.comob.on{opacity:1}.comob p{color:var(--dim);font-size:14px;margin-top:4px}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+
+/* ---- video mode (no scroll-scrubbing) ---- */
+#aufnahme,#eingriff,#befund{scroll-margin-top:0!important;height:100vh;height:100svh;min-height:560px;margin-top:0!important}
+.scene .pin{position:relative;height:100%;opacity:1!important}
+.scene+.scene .pin{opacity:1}
+.pin .steps,.pin .stepbar,.pin .hud,.pin .meta,.pin .callouts,.pin .bef-head{opacity:1}
+.vid{position:absolute;display:block;object-fit:cover;background:#050606}
+.bgblur{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(28px) brightness(.45) saturate(1.1);display:none}
+.vfade{position:absolute;inset:0;pointer-events:none}
+@media (max-width:900px){.bgblur{display:block}}
 </style>
 </head>
 <body class="lock">
@@ -303,7 +313,7 @@ footer .r a:hover{color:var(--mon)}
 <!-- 01 AUFNAHME -->
 <section class="scene" id="aufnahme" data-clip="c1" data-frames="145">
   <div class="pin">
-    <canvas aria-label="Ein Burger liegt auf einem Stahltablett im dunklen OP-Saal, die OP-Lampe schaltet sich ein"></canvas>
+    <div class="bgblur" style="background-image:url(img/c1-blur.webp)" aria-hidden="true"></div><video class="vid" data-c="c1" muted playsinline preload="auto" poster="img/c1-poster.webp" aria-label="Ein Burger liegt auf einem Stahltablett im dunklen OP-Saal, die OP-Lampe schaltet sich ein"></video>
     <div class="scrim-l"></div><div class="scrim-b"></div>
     <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
     <div class="meta mono"><span>Patient Nr. 0017</span><span>Leinstraße 17</span><span class="mon" id="clock">● live</span></div>
@@ -324,7 +334,7 @@ footer .r a:hover{color:var(--mon)}
 <!-- 02 EINGRIFF -->
 <section class="scene" id="eingriff" data-clip="c2" data-frames="193">
   <div class="pin">
-    <canvas aria-label="Eine Hackfleischkugel wird auf der heißen Platte flach gepresst, es entsteht eine braune Kruste"></canvas>
+    <div class="bgblur" style="background-image:url(img/c2-blur.webp)" aria-hidden="true"></div><video class="vid" data-c="c2" muted playsinline preload="auto" poster="img/c2-poster.webp" aria-label="Eine Hackfleischkugel wird auf der heißen Platte flach gepresst, es entsteht eine braune Kruste"></video>
     <div class="scrim-l"></div>
     <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
     <div class="meta mono"><span class="rec">● REC</span><span>OP-Protokoll <span id="tc">00:00:00:00</span></span></div>
@@ -348,7 +358,7 @@ footer .r a:hover{color:var(--mon)}
 <!-- 03 BEFUND -->
 <section class="scene" id="befund" data-clip="c3" data-frames="193">
   <div class="pin">
-    <canvas aria-label="Der Burger dreht sich, ein Scanner fährt durch und die Schichten schweben als Röntgenbild auseinander"></canvas>
+    <div class="bgblur" style="background-image:url(img/c3-blur.webp)" aria-hidden="true"></div><video class="vid" data-c="c3" muted playsinline preload="auto" poster="img/c3-poster.webp" aria-label="Der Burger dreht sich, ein Scanner fährt durch und die Schichten schweben als Röntgenbild auseinander"></video>
     <div class="scanline" id="scan"></div>
     <i class="corner c-tl"></i><i class="corner c-tr"></i><i class="corner c-bl"></i><i class="corner c-br"></i>
     <div class="bef-head" id="befHead"><span class="k mono mon">Befund</span><h2>Alles da,<br>wo es<br>hingehört</h2><p>Ein Blick ins Innere des Double Smash. Sieben Schichten, keine davon überflüssig.</p></div>
@@ -430,7 +440,7 @@ footer .r a:hover{color:var(--mon)}
 
 <footer>
   <div class="giant" aria-hidden="true">Dr.Smash</div>
-  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v2</span></div>
+  <div class="r mono"><span>© Dr. Smash Burger · Nienburg (Weser)</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span><span>Entwurf · © Alexander Czilinski · nicht zur Weitergabe · v3</span></div>
 </footer>
 <div class="mob"><a class="btn f" href="https://www.lieferando.de/speisekarte/dr-smash-burger-leinstrasse" target="_blank" rel="noopener"><span class="d"></span>Rezept einlösen</a></div>
 
@@ -443,86 +453,21 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile=()=>innerWidth<900;
 const SET=mobile()?'m':'d';
 
-/* ---------- frame sequences ---------- */
-class Seq{
-  constructor(sec){
-    this.sec=sec;this.pinEl=sec.querySelector('.pin');this.cv=sec.querySelector('canvas');
-    this.buf=document.createElement('canvas');this.bctx=this.buf.getContext('2d');this.amb=document.createElement('canvas');this.amb.width=16;this.amb.height=9;this.actx=this.amb.getContext('2d');this.ctx=this.cv.getContext('2d');
-    this.clip=sec.dataset.clip;this.n=+sec.dataset.frames;this.imgs=new Array(this.n);this.loaded=0;
-    this.cur=-1;this.want=0;this.parts={};this.kf=0;this.rdy=0;this.rb=new Uint8Array(0);this.ready=new Promise(r=>this._ready=r);
-    this.zoom={c1:1.9,c2:1.75,c3:1.6}[this.clip];this.my={c1:.4,c2:.62,c3:.6}[this.clip];this.k={c1:1,c2:1,c3:.8}[this.clip];this.dx={c1:.13,c2:.1,c3:.05}[this.clip];
-    this.resize();addEventListener('resize',()=>this.resize());
-  }
-  /* frames come in two files per clip: p/<clip><set>a.bin = [u16 n][u16 ready][u16 order[n]] + coarse WebPs,
-     p/<clip><set>b.bin = the remaining WebPs (coarse-to-fine). Both are parsed while streaming. */
-  load(part,onProg){
-    if(this.parts[part])return this.parts[part];
-    if(part==='b'&&!this.parts.a)return this.parts.b=this.load('a',onProg).then(()=>this.load('b',onProg));
-    return this.parts[part]=(async()=>{
-      try{
-        const res=await fetch(`p/${this.clip}${SET}${part}.bin`);if(!res.ok)throw 0;
-        const rd=res.body.getReader();
-        for(;;){const {done,value}=await rd.read();
-          if(value){const b=new Uint8Array(this.rb.length+value.length);b.set(this.rb);b.set(value,this.rb.length);this.rb=b}
-          let buf=this.rb,p=0;const dv=new DataView(buf.buffer);
-          if(!this.order&&buf.length>=4){const c=dv.getUint16(0,true);if(buf.length>=4+2*c){
-            this.n=c;this.rn=dv.getUint16(2,true);this.order=[];for(let j=0;j<c;j++)this.order.push(dv.getUint16(4+2*j,true));this.imgs=new Array(c);p=4+2*c}}
-          while(this.order&&this.kf<this.n&&buf.length-p>=8){const sz=dv.getUint32(p+4,true)+8;if(buf.length-p<sz)break;
-            this.frame(buf.slice(p,p+sz),this.order[this.kf],this.kf++,onProg);p+=sz}
-          if(p)this.rb=buf.slice(p);
-          if(done)break}
-      }catch(e){this._ready()}
-    })();
-  }
-  frame(bytes,i,pos,onProg){const im=new Image();im.decoding='async';
-    im.onload=im.onerror=()=>{if(im.naturalWidth)this.imgs[i]=im;this.loaded++;
-      if(pos<this.rn){this.rdy++;onProg&&onProg(this.rdy/this.rn);if(this.rdy>=this.rn)this._ready()}
-      if(this.cur<0||Math.abs(i-this.want)<Math.abs(this.cur-this.want))this.draw(this.want,true)};
-    im.src=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}))}
-  drawP(p){this.draw(p*(this.n-1))}
-  resize(){const d=Math.min(SET==='m'?1.5:2,devicePixelRatio||1);const r=this.cv.getBoundingClientRect();
-    const W=Math.round(r.width*d),H=Math.round(r.height*d);if(W===this.cv.width&&H===this.cv.height&&this.w)return;this.w=r.width;this.h=r.height;
-    this.cv.width=this.buf.width=W;this.cv.height=this.buf.height=H;this.ctx.setTransform(d,0,0,d,0,0);this.bctx.setTransform(d,0,0,d,0,0);this.cur=-1;this.draw(this.want,true)}
-  rect(){const iw=16,ih=9;let w,h;
-    if(this.w/this.h>=1.2){const s=Math.max(this.w/iw,this.h/ih)*this.k;w=iw*s;h=ih*s;return {x:(this.w-w)/2+this.w*this.dx,y:(this.h-h)/2,w,h}}
-    w=this.w*this.zoom;h=w*ih/iw;return {x:(this.w-w)/2,y:this.h*this.my-h/2,w,h}}
-  nearest(i){if(this.imgs[i])return i;for(let d=1;d<this.n;d++){if(this.imgs[i-d])return i-d;if(this.imgs[i+d])return i+d}return -1}
-  draw(i,force){i=Math.round(clamp(i,0,this.n-1));this.want=i;const k=this.nearest(i);if(k<0||(k===this.cur&&!force))return;this.cur=k;
-    const c=this.ctx,r=this.rect(),im=this.imgs[k];c.fillStyle='#050606';c.fillRect(0,0,this.w,this.h);
-    if(r.h<this.h*.9){ // portrait: blurred ambient fill + feathered band instead of black letterbox
-      this.actx.drawImage(im,0,0,16,9);c.save();c.globalAlpha=.6;c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
-      c.drawImage(this.amb,r.x,r.y-r.h*.9,r.w,r.h*2.8);c.restore();
-      const b=this.bctx;b.clearRect(0,0,this.w,this.h);b.drawImage(im,r.x,r.y,r.w,r.h);b.globalCompositeOperation='destination-in';
-      const g=b.createLinearGradient(0,r.y,0,r.y+r.h);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(.2,'#000');g.addColorStop(.82,'#000');g.addColorStop(1,'rgba(0,0,0,0)');
-      b.fillStyle=g;b.fillRect(0,0,this.w,this.h);b.globalCompositeOperation='source-over';c.drawImage(this.buf,0,0,this.w,this.h);return}
-    c.drawImage(im,r.x,r.y,r.w,r.h);
-    if(r.x>0){const f=Math.min(260,r.w*.2);const g=c.createLinearGradient(r.x,0,r.x+f,0);g.addColorStop(0,'#050606');g.addColorStop(1,'rgba(5,6,6,0)');c.fillStyle=g;c.fillRect(r.x-1,0,f+1,this.h)}
-    if(r.x+r.w<this.w){const f=Math.min(260,r.w*.2);const g=c.createLinearGradient(r.x+r.w-f,0,r.x+r.w,0);g.addColorStop(0,'rgba(5,6,6,0)');g.addColorStop(1,'#050606');c.fillStyle=g;c.fillRect(r.x+r.w-f,0,f+1,this.h)}
-    if(r.h<this.h){const f=Math.min(120,r.h*.25);let g=c.createLinearGradient(0,r.y,0,r.y+f);g.addColorStop(0,'#050606');g.addColorStop(1,'rgba(5,6,6,0)');c.fillStyle=g;c.fillRect(0,r.y-1,this.w,f+1);
-      g=c.createLinearGradient(0,r.y+r.h-f,0,r.y+r.h);g.addColorStop(0,'rgba(5,6,6,0)');g.addColorStop(1,'#050606');c.fillStyle=g;c.fillRect(0,r.y+r.h-f,this.w,f+1)}}
-  progress(){const r=this.sec.getBoundingClientRect();return clamp(-r.top/(this.sec.offsetHeight-innerHeight))}
-}
-const S={};$$('.scene').forEach(s=>S[s.id]=new Seq(s));
-function measOv(){for(const k in S){const st=S[k].sec;S[k].ovPx=-parseFloat(getComputedStyle(st).marginTop)||0}}measOv();addEventListener('resize',measOv);
+/* ---------- videos ---------- */
+const ZOOM={c1:1.9,c2:1.75,c3:1.6},MY={c1:.42,c2:.58,c3:.6},K={c1:1,c2:1,c3:.8},DX={c1:.13,c2:.1,c3:.05};
+const V={};$$('.vid').forEach(v=>{const c=v.dataset.c;V[c]=v;v.src=`v/${c}${SET}.mp4`;v.loop=(c==='c2');v.muted=true;v.playsInline=true});
+function rect(c,w,h){const iw=16,ih=9;let W,H;
+  if(w/h>=1.2){const s=Math.max(w/iw,h/ih)*K[c];W=iw*s;H=ih*s;return {x:(w-W)/2+w*DX[c],y:(h-H)/2,w:W,h:H}}
+  W=w*ZOOM[c];H=W*ih/iw;return {x:(w-W)/2,y:h*MY[c]-H/2,w:W,h:H}}
+function mask(v,r,h,w){ // soft edges so the video melts into the page
+  const top=r.y>0,bot=r.y+r.h<h,lft=r.x>0;let g=[];
+  if(top||bot)g.push(`linear-gradient(to bottom,transparent 0,#000 ${top?18:0}%,#000 ${bot?82:100}%,transparent 100%)`);
+  if(lft)g.push(`linear-gradient(to right,transparent 0,#000 16%)`);
+  const m=g.join(',');v.style.webkitMaskImage=v.style.maskImage=m||'none';if(g.length>1){v.style.webkitMaskComposite='source-in';v.style.maskComposite='intersect'}}
+function layout(){for(const c in V){const v=V[c],p=v.parentElement,w=p.clientWidth,h=p.clientHeight,r=rect(c,w,h);
+  Object.assign(v.style,{left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px'});mask(v,r,h,w);v._r=r;v._w=w;v._h=h}placeCallouts()}
 
-/* lazy-load later clips */
-const lio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){S.aufnahme.ready.then(()=>S[e.target.id].load('b'));lio.unobserve(e.target)}}),{rootMargin:'100% 0px'});
-lio.observe($('#befund'));
-
-/* ---------- loader + hero intro ---------- */
-const lnum=$('#lnum');let shown=0,target=0;
-(function tick(){shown+=(target-shown)*.12;lnum.textContent=String(Math.round(shown)).padStart(3,'0');if(shown<99.5)requestAnimationFrame(tick)})();
-const INTRO=.25; let intro=reduce?1:0, introDone=reduce;
-/* priority (one stream at a time = full bandwidth): c1 coarse+intro (loader) -> c2 coarse -> c1 rest -> c3 coarse -> c2 rest -> c3 rest */
-S.aufnahme.load('a',p=>target=Math.min(100,p*100)).then(()=>S.eingriff.load('a')).then(()=>S.aufnahme.load('b'))
-  .then(()=>S.befund.load('a')).then(()=>S.eingriff.load('b')).then(()=>S.befund.load('b'));
-Promise.race([S.aufnahme.ready,new Promise(r=>setTimeout(r,8000))]).then(()=>{
-  target=100;setTimeout(()=>{$('#loader').classList.add('done');document.body.classList.remove('lock');
-    document.body.classList.add('ready');
-    if(!reduce){const t0=performance.now();(function a(t){intro=clamp((t-t0)/1700);if(intro<1)requestAnimationFrame(a);else introDone=true})(t0)}
-    },300)});
-
-/* ---------- befund callouts (positions as fraction of the final x-ray frame) ---------- */
+/* ---------- befund callouts ---------- */
 const LAYERS=[
   ['Brioche','Weich, leicht süß, auf der Platte angeröstet.',.20,'r'],
   ['Pickles & Zwiebeln','Säure gegen das Fett.',.335,'l'],
@@ -535,48 +480,48 @@ const LAYERS=[
 const coWrap=$('#callouts');
 coWrap.innerHTML=LAYERS.map(([t,d,y,s])=>`<div class="co ${s}"><span class="mono">${t}</span><p>${d}</p></div>`).join('');
 const COS=[...coWrap.children];const coMob=document.createElement('div');coMob.className='comob';$('#befund .pin').appendChild(coMob);
-function placeCallouts(){const sq=S.befund,r=sq.rect(),m=mobile();
+function placeCallouts(){const v=V.c3;if(!v||!v._r)return;const r=v._r,m=mobile();
   COS.forEach((el,i)=>{const [, ,y,s]=LAYERS[i];const top=r.y+r.h*y-8;const lw=m?14:Math.max(28,r.w*.05);
-    el.style.setProperty('--lw',lw+'px');el.style.top=top+'px';
-    const half=r.w*(m?.2:.2);const cx=r.x+r.w/2;
-    if(s==='r'){el.style.left=(cx+half+lw+12)+'px';el.style.right='auto'}else{el.style.right=(sq.w-(cx-half-lw-12))+'px';el.style.left='auto'}})}
-addEventListener('resize',placeCallouts);placeCallouts();
+    el.style.setProperty('--lw',lw+'px');el.style.top=top+'px';const half=r.w*.2,cx=r.x+r.w/2;
+    if(s==='r'){el.style.left=(cx+half+lw+12)+'px';el.style.right='auto'}else{el.style.right=(v._w-(cx-half-lw-12))+'px';el.style.left='auto'}})}
+let lt;addEventListener('resize',()=>{clearTimeout(lt);lt=setTimeout(layout,120)});layout();
 
-/* ---------- ECG ---------- */
+/* ---------- loader ---------- */
+let shown=0,target=0;const lnum=$('#lnum');
+(function tick(){shown+=(target-shown)*.15;lnum.textContent=String(Math.round(shown)).padStart(3,'0');if(shown<99.5)requestAnimationFrame(tick)})();
+const pr=setInterval(()=>{const v=V.c1;if(v.buffered.length&&v.duration)target=Math.max(target,Math.min(95,v.buffered.end(0)/v.duration*100));else target=Math.min(60,target+4)},120);
+let started=false;function start(){if(started)return;started=true;clearInterval(pr);target=100;
+  setTimeout(()=>{$('#loader').classList.add('done');document.body.classList.remove('lock');document.body.classList.add('ready');
+    V.c1.currentTime=0;V.c1.play().catch(()=>{});V.c2.preload='auto';V.c2.load();V.c3.load()},350)}
+V.c1.addEventListener('canplaythrough',start,{once:true});setTimeout(start,4500);
+
+/* ---------- play when visible ---------- */
+// play only when at least ~55% visible
+const vio2=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('.vid');if(!v||!started)return;
+  if(e.intersectionRatio>=.55){if(v.paused){if(v.dataset.c==='c3'||v.dataset.c==='c2')v.currentTime=0;if(v.dataset.c!=='c1'||!v.ended)v.play().catch(()=>{})}}
+  else if(e.intersectionRatio<.2){v.pause();if(v.dataset.c==='c3')v.currentTime=0}}),{threshold:[.2,.55]});
+['aufnahme','eingriff','befund'].forEach(id=>vio2.observe(document.getElementById(id)));
+
+/* ---------- text in sync with video time ---------- */
+const steps=$$('.step'),bars=$$('.stepbar div');let curStep=-1;const navs=$$('nav a');
+function sync(){
+  const t2=V.c2.currentTime/(V.c2.duration||8.04);
+  const st=t2<.12?0:t2<.7?1:2;if(st!==curStep){curStep=st;steps.forEach((s,i)=>s.classList.toggle('on',i===st));bars.forEach((b,i)=>b.classList.toggle('on',i<=st))}
+  $('#hH').innerHTML=Math.round(70-61*seg(t2,.12,.4))+'<sup>mm</sup>';
+  const secs=V.c2.currentTime;$('#tc').textContent=`00:00:${String(Math.floor(secs)).padStart(2,'0')}:${String(Math.floor(secs%1*24)).padStart(2,'0')}`;
+  const t3=V.c3.currentTime/(V.c3.duration||8.04);
+  $('#befHead').style.opacity=mobile()?1:1-seg(t3,.66,.78);
+  const shownN=Math.floor(seg(t3,.78,.97)*LAYERS.length+.0001);COS.forEach((c,i)=>c.classList.toggle('on',i<shownN));
+  if(mobile()){const li=Math.min(LAYERS.length-1,Math.max(0,shownN-1));coMob.classList.toggle('on',t3>.78);coMob.innerHTML=`<span class="mono mon">Schicht ${li+1} von ${LAYERS.length} · ${LAYERS[li][0]}</span><p>${LAYERS[li][1]}</p>`}
+  const sc=$('#scan'),r=V.c3._r;if(r){const sp=seg(t3,.2,.62);sc.style.opacity=sp>0&&sp<1?.9:0;sc.style.top=(r.y+r.h*(.06+.88*sp))+'px'}
+  requestAnimationFrame(sync)}
+requestAnimationFrame(sync);
+
+/* ---------- ECG progress (scroll only) ---------- */
 (function(){let d='M0,17';for(let x=0;x<1200;x+=150){d+=` H${x+60} l6,-3 l6,3 h10 l7,-14 l8,28 l7,-14 h10 l8,-4 l6,4`}d+=' H1200';$('#ecgp').setAttribute('d',d);$('#ecgl').setAttribute('d',d)})();
 const ecgLive=$('.ecg .live'),ecgDot=$('#ecgdot');
-
-/* ---------- main loop ---------- */
-const sm={aufnahme:0,eingriff:0,befund:0};
-const steps=$$('.step'),bars=$$('.stepbar div');let curStep=0;
-const navs=$$('nav a');
-function loop(){
-  const vh=innerHeight,ks=Object.keys(S),op={};
-  for(const k of ks){const sq=S[k];sm[k]+=(sq.progress()-sm[k])*(reduce?1:.16);
-    op[k]=sq.ovPx?clamp(-sq.sec.getBoundingClientRect().top/(sq.ovPx-vh)):1}
-  ks.forEach((k,i)=>{const pe=S[k].pinEl,o=op[k],nx=ks[i+1];
-    if(S[k].ovPx){pe.style.opacity=o;pe.style.pointerEvents=o>.5?'':'none'}
-    pe.style.setProperty('--t',clamp(2*o-1)*(nx?1-clamp(2*op[nx]):1))});
-  // hero: intro autoplay to lamp-on, then scroll push-in
-  const h=sm.aufnahme;S.aufnahme.drawP(introDone?INTRO+(1-INTRO)*clamp(h/.75):INTRO*intro);
-  const hc=$('#heroCopy');hc.style.opacity=1-seg(h,.25,.55);hc.style.transform=`translateY(${-60*seg(h,.25,.55)}px)`;
-  // eingriff
-  const e=sm.eingriff,fe=clamp((e-.04)/.8);S.eingriff.drawP(fe);
-  const st=fe<.3?0:fe<.68?1:2;if(st!==curStep){curStep=st;steps.forEach((s,i)=>s.classList.toggle('on',i===st));bars.forEach((b,i)=>b.classList.toggle('on',i<=st))}
-  $('#hH').innerHTML=Math.round(70-61*seg(fe,.3,.62))+'<sup>mm</sup>';
-  const secs=fe*8.04;$('#tc').textContent=`00:00:${String(Math.floor(secs)).padStart(2,'0')}:${String(Math.floor(secs%1*24)).padStart(2,'0')}`;
-  // befund
-  const b=sm.befund,fb=clamp((b-.04)/.76);S.befund.drawP(fb);
-  $('#befHead').style.opacity=`calc(var(--t,1) * ${mobile()?1:1-seg(b,.66,.74)})`;
-  if(mobile()){const li=Math.min(LAYERS.length-1,Math.floor(seg(b,.74,.97)*LAYERS.length));coMob.classList.toggle('on',b>.74);coMob.innerHTML=`<span class="mono mon">Schicht ${li+1} von ${LAYERS.length} · ${LAYERS[li][0]}</span><p>${LAYERS[li][1]}</p>`}
-  const shownN=Math.floor(seg(b,.74,.94)*LAYERS.length+.0001);COS.forEach((c,i)=>c.classList.toggle('on',i<shownN));
-  const sc=$('#scan'),sr=S.befund.rect();const sp=seg(fb,.2,.62);sc.style.opacity=sp>0&&sp<1?.9:0;sc.style.top=(sr.y+sr.h*(.06+.88*sp))+'px';
-  // ecg progress
-  const tot=document.documentElement.scrollHeight-innerHeight;const gp=clamp(scrollY/tot);
-  ecgLive.style.clipPath=`inset(0 ${100-gp*100}% 0 0)`;ecgDot.style.left=(gp*100)+'%';
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
+function ecg(){const tot=document.documentElement.scrollHeight-innerHeight;const gp=clamp(scrollY/tot);ecgLive.style.clipPath=`inset(0 ${100-gp*100}% 0 0)`;ecgDot.style.left=(gp*100)+'%'}
+addEventListener('scroll',ecg,{passive:true});ecg();
 
 /* nav highlight */
 const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navs.forEach(a=>a.classList.toggle('on',a.dataset.s===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
